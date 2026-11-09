@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ethio Earn</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#071a12;color:white;font-family:Arial,sans-serif}
+header{background:#102c1e;padding:22px;border-bottom:1px solid #31533d}
+header h1{color:#45d99a;margin:0}
+header p{color:#b9d4c5}
+main{padding:18px;padding-bottom:100px}
+.card{background:#183426;border:1px solid #315640;border-radius:20px;padding:20px;margin-bottom:15px}
+.bonus{background:linear-gradient(120deg,#125b38,#16834f)}
+.big{font-size:38px;font-weight:bold;margin:12px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;border-radius:12px;padding:13px;background:#20b878;color:#061b10;font-weight:bold;font-size:15px}
+.product{background:#19392a;border-radius:17px;overflow:hidden;border:1px solid #315640}
+.product .photo{font-size:55px;text-align:center;padding:30px}
+.product .info{padding:12px}
+.green{color:#55e5a0}
+input{width:100%;padding:14px;margin:10px 0;background:#10271b;border:1px solid #42634e;color:white;border-radius:10px}
+nav{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#102c1e;padding:15px 3px}
+nav button{background:transparent;color:white;padding:10px 5px;font-size:12px}
+.page{display:none}
+.page.active{display:block}
+</style>
+</head>
+<body>
+<header>
+<h1>ETHIO EARN</h1>
+<p>EARN MORE · WIN MORE</p>
+</header>
+<main>
+<section id="home" class="page active">
+<div class="card bonus">
+<h3>🎁 WELCOME BONUS</h3>
+<div class="big">100 POINTS</div>
+Welcome to your electronics rewards community
+</div>
+<div class="grid">
+<div class="card">🪙 MY POINTS<div class="big" id="points">100</div></div>
+<div class="card">👥 REFERRALS<div class="big">0</div></div>
+</div>
+<h2>🔥 Electronics auctions</h2>
+<div class="grid">
+<div class="product"><div class="photo">📱</div><div class="info"><b>Smartphones</b><p class="green">Starting: 70 ETB</p><button onclick="openPage('auction')">View</button></div></div>
+<div class="product"><div class="photo">💻</div><div class="info"><b>Laptops</b><p class="green">Starting: 70 ETB</p><button onclick="openPage('auction')">View</button></div></div>
+<div class="product"><div class="photo">🎧</div><div class="info"><b>Earphones</b><p class="green">Starting: 70 ETB</p><button onclick="openPage('auction')">View</button></div></div>
+<div class="product"><div class="photo">📺</div><div class="info"><b>Electronics</b><p class="green">Starting: 70 ETB</p><button onclick="openPage('auction')">View</button></div></div>
+</div>
+</section>
+<section id="auction" class="page">
+<h2>🏆 Auctions</h2>
+<div class="card">
+<div style="font-size:65px">📱</div>
+<h3>Smartphone Auction</h3>
+<p>Demo starting bid: 70 ETB</p>
+<p>Highest demo bid: <b id="bid">70</b> ETB</p>
+<button onclick="placeBid()">Place demo bid (+10 points)</button>
+</div>
+</section>
+<section id="tasks" class="page">
+<h2>🎯 Tasks</h2>
+<div class="card">
+<h3>Daily welcome task</h3>
+<p>Demo reward: 5 points</p>
+<button onclick="taskReward()">Collect demo points</button>
+</div>
+<div class="card">
+<h3>🤝 Invite friends</h3>
+<p>Your referral code:</p>
+<b>ETHIO100</b>
+</div>
+</section>
+<section id="wallet" class="page">
+<h2>💰 My Wallet</h2>
+<div class="card">
+<p>Demo points balance</p>
+<div class="big" id="walletPoints">100</div>
+<p>These are demonstration points, not money or withdrawable funds.</p>
+</div>
+</section>
+<section id="profile" class="page">
+<h2>👤 My Profile</h2>
+<div class="card">
+<p>Account: Guest</p>
+<p>Referral code: ETHIO100</p>
+<p>Level: Beginner</p>
+</div>
+</section>
+</main>
+<nav>
+<button onclick="openPage('home')">🏠 Home</button>
+<button onclick="openPage('auction')">🔨 Auction</button>
+<button onclick="openPage('tasks')">🎯 Tasks</button>
+<button onclick="openPage('wallet')">💰 Wallet</button>
+<button onclick="openPage('profile')">👤 Profile</button>
+</nav>
+<script>
+let points=100;
+function openPage(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+function updatePoints(){
+document.getElementById('points').textContent=points;
+document.getElementById('walletPoints').textContent=points;
+}
+function placeBid(){
+if(points<10){alert('Not enough demo points');return;}
+points-=10;
+document.getElementById('bid').textContent=
+Number(document.getElementById('bid').textContent)+10;
+updatePoints();
+alert('Demo bid placed!');
+}
+function taskReward(){
+points+=5;
+updatePoints();
+alert('5 demo points added!');
+}
+</script>
+</body>
+</html>
