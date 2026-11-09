@@ -1,28 +1,23 @@
-<!-- የቋንቋ መቀያየሪያ ቁልፍ (ከላይ ወይም ተስማሚ ቦታ ላይ ያስቀምጡት) -->
-<div style="text-align: right; padding: 10px;">
-  <button id="langBtn" onclick="toggleLanguage()" style="padding: 5px 10px; cursor: pointer; font-weight: bold;">En / አማ</button>
-</div>
-
-<button id="navWallet" onclick="openPage('wallet')">💰 Wallet</button>
-<button id="navProfile" onclick="openPage('profile')">👤 Profile</button>
-</nav>
-
-<script>
-let points = 100;
-let currentLang = 'en'; // ነባሪ ቋንቋ English
-
-// የትርጉም ቃላት ዝርዝር
-const translations = {
-    en: {
-        wallet: "💰 Wallet",
-        profile: "👤 Profile",
-        notEnough: "Not enough demo points",
-        bidPlaced: "Demo bid placed!",
-        rewardAdded: "5 demo points added!"
-    },
-    am: {
-        wallet: "💰 ቦርሳ (Wallet)",
-        profile: "👤 መገለጫ (Profile)",
+btnView: "እይ",
+        auctionPageTitle: "🏆 ጨረታዎች",
+        auctionItemTitle: "የስማርትፎን ጨረታ",
+        auctionStartPrice: "የዴሞ መነሻ መጫረቻ: 70 ብር",
+        highestBidLabel: "ከፍተኛው የዴሞ መጫረቻ:",
+        btnPlaceBid: "የዴሞ መጫረቻ አቅርብ (+10 ነጥብ)",
+        tasksPageTitle: "🎯 ሥራዎች",
+        dailyTaskTitle: "የዕለቱ የእንኳን ደህና መጡ ሥራ",
+        dailyTaskReward: "የዴሞ ሽልማት: 5 ነጥብ",
+        btnCollectPoints: "የዴሞ ነጥቦችን ሰብስብ",
+        inviteFriendsTitle: "🤝 ጓደኞችን ይጋብዙ",
+        refCodeLabel: "የእርስዎ መጋበዣ ኮድ:",
+        walletPageTitle: "💰 ቦርሳዬ",
+        walletPointsDesc: "የዴሞ ነጥብ ቀሪ ሂሳብ",
+        walletDisclaimer: "እነዚህ የማሳያ (ዴሞ) ነጥቦች ናቸው፣ እውነተኛ ገንዘብ ወይም ወጪ የሚደረግ ፈንድ አይደሉም።",
+        profilePageTitle: "👤 መገለጫዬ",
+        profAccount: "አካውንት: እንግዳ",
+        profRefCode: "የመጋበዣ ኮድ: ETHIO100",
+        profLevel: "ደረጃ: ጀማሪ",
+        navHome: "🏠 መነሻ", navAuction: "🔨 ጨረታ", navTasks: "🎯 ሥራዎች", navWallet: "💰 ቦርሳ", navProfile: "👤 መገለጫ",
         notEnough: "በቂ የዴሞ ነጥብ የሎትም!",
         bidPlaced: "የዴሞ መጫረቻዎ በትክክል ቀርቧል!",
         rewardAdded: "5 የዴሞ ነጥብ ተጨምሯል!"
@@ -30,45 +25,32 @@ const translations = {
 };
 
 function openPage(id){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 }
-
 function updatePoints(){
-    document.getElementById('points').textContent = points;
-    document.getElementById('walletPoints').textContent = points;
+document.getElementById('points').textContent=points;
+document.getElementById('walletPoints').textContent=points;
 }
-
-// መጫረቻ (Auction Bid)
 function placeBid(){
-    if(points < 10){
-        alert(translations[currentLang].notEnough);
-        return;
-    }
-    points -= 10;
-    document.getElementById('bid').textContent = Number(document.getElementById('bid').textContent) + 10;
-    updatePoints();
-    alert(translations[currentLang].bidPlaced);
+if(points<10){alert(translations[currentLang].notEnough);return;}
+points-=10;
+document.getElementById('bid').textContent=
+Number(document.getElementById('bid').textContent)+10;
+updatePoints();
+alert(translations[currentLang].bidPlaced);
 }
-
-// የሥራ ማጠናቀቂያ ዋጋ (Task Reward)
 function taskReward(){
-    points += 5;
-    updatePoints();
-    alert(translations[currentLang].rewardAdded);
+points+=5;
+updatePoints();
+alert(translations[currentLang].rewardAdded);
 }
 
-// ቋንቋ ለመቀየር የሚያገለግል ፈንክሽን
 function toggleLanguage() {
     currentLang = (currentLang === 'en') ? 'am' : 'en';
     
-    // በገጹ ላይ ያሉ ጽሑፎችን መቀየር
-    document.getElementById('navWallet').innerHTML = translations[currentLang].wallet;
-    document.getElementById('navProfile').innerHTML = translations[currentLang].profile;
-    
-    // የቁልፉን (Button) ጽሑፍ መቀየር
-    document.getElementById('langBtn').textContent = (currentLang === 'en') ? "አማርኛ" : "English";
-}
-</script>
-</body>
-</html>
+    document.getElementById('txtMainTitle').textContent = translations[currentLang].mainTitle;
+    document.getElementById('txtSubTitle').textContent = translations[currentLang].subTitle;
+    document.getElementById('txtWelcomeBonus').textContent = translations[currentLang].welcomeBonus;
+    document.getElementById('txtBonusAmount').textContent = translations[currentLang].bonusAmount;
+    document.getElementById('txtWelcomeDesc').textContent = translations[currentLang].welcomeDesc;
