@@ -136,3 +136,87 @@
     <div class="navbar">
         <div class="nav-item active" id="nav-home" onclick="switchPage('home')">🏠<br>Home</div>
         <div class="nav-item" id="nav-tasks" onclick="switchPage('tasks')">📋<br>Tasks</div>
+    <script>
+        let points = parseInt(localStorage.getItem('ethioEarnPoints')) || 100;
+        let referrals = parseInt(localStorage.getItem('ethioEarnRefCount')) || 0;
+
+        function refreshPoints() {
+            document.getElementById('userPointsDisplay').innerText = points;
+            document.getElementById('welcomePoints').innerText = points + " POINTS";
+            document.getElementById('walletBalanceDisplay').innerText = points + " PTS";
+            document.getElementById('referralCountDisplay').innerText = referrals;
+            document.getElementById('etbEquivalent').innerText = (points / 10).toFixed(1);
+            document.getElementById('referralLinkInput').value = window.location.origin + window.location.pathname + "?ref=user" + Math.floor(1000 + Math.random() * 9000);
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('ref') && !localStorage.getItem('referredUser')) {
+                localStorage.setItem('referredUser', 'true');
+                points += 10; referrals += 1;
+                localStorage.setItem('ethioEarnPoints', points);
+                localStorage.setItem('ethioEarnRefCount', referrals);
+            }
+            refreshPoints();
+            startCountdown('timer1', 21);
+            createBiddingChart('chart1', [3500, 3800, 4000, 4200, 4400, 4500]);
+        };
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            if(pageId === 'home') { document.getElementById('homePage').classList.add('active'); document.getElementById('nav-home').classList.add('active'); }
+            if(pageId === 'tasks') { document.getElementById('tasksPage').classList.add('active'); document.getElementById('nav-tasks').classList.add('active'); }
+            if(pageId === 'wallet') { document.getElementById('walletPage').classList.add('active'); document.getElementById('nav-wallet').classList.add('active'); }
+            if(document.getElementById('appSidebar')) { document.getElementById('appSidebar').classList.remove('active'); }
+        }
+
+        function toggleSidebar() { document.getElementById('appSidebar').classList.toggle('active'); }
+        function completeTask(url) { window.open(url, '_blank'); points += 100; localStorage.setItem('ethioEarnPoints', points); refreshPoints(); alert("🎉 100 ፖይንት ተጨምሯል!"); }
+        function copyReferralLink() { let cp = document.getElementById('referralLinkInput'); cp.select(); navigator.clipboard.writeText(cp.value); alert("🔗 የሪፈራል ሊንክ ኮፒ ሆኗል!"); }
+
+        function startCountdown(elementId, daysNeeded) {
+            let targetDate = new Date(); targetDate.setDate(targetDate.getDate() + daysNeeded);
+            setInterval(() => {
+                let distance = targetDate - new Date().getTime();
+                let days = Math.floor(distance / 86400000);
+                let hours = Math.floor((distance % 86400000) / 3600000);
+                let minutes = Math.floor((distance % 3600000) / 60000);
+                let seconds = Math.floor((distance % 60000) / 1000);
+                let el = document.getElementById(elementId);
+                if(el) { el.innerText = `⏳ ቀሪ፡ ${days}ቀን ${hours}ሰ ${minutes}ደ ${seconds}ሰ`; }
+            }, 1000);
+        }
+
+        function likeItem(btn) {
+            let countSpan = btn.querySelector('.count'); let currentCount = parseInt(countSpan.innerText);
+            btn.classList.toggle('active'); countSpan.innerText = btn.classList.contains('active') ? currentCount + 1 : currentCount - 1;
+        }
+        function shareItem() { alert("🔗 ሊንክ ኮፒ ሆኗል!"); }
+        
+        function addComment(btn) {
+            let input = btn.previousElementSibling; let list = document.getElementById('comments-list-1');
+            if(input.value.trim() !== "" && list) { let div = document.createElement('div'); div.innerText = "👉 " + input.value; list.appendChild(div); input.value = ""; }
+        }
+
+        function createBiddingChart(canvasId, baseData) {
+            const canvas = document.getElementById(canvasId);
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: { labels: ['D1', 'D5', 'D10', 'D15', 'D20', 'Now'], datasets: [{ data: baseData, borderColor: '#00cc66', borderWidth: 2, tension: 0.3, fill: false }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+            });
+        }
+
+        function processWithdraw() {
+            let amt = document.getElementById('withdrawAmount').value;
+            if(amt === "" || amt <= 0) { alert("እባክዎ ትክክለኛ የብር መጠን ያስገቡ!"); return; }
+            if(points < (amt * 10)) { alert("ይቅርታ፣ በቂ ፖይንት የለዎትም!"); }
+            else { alert("✅ ጥያቄዎ በቴሌብር በተሳካ ሁኔታ ተልኳል!"); }
+        }
+    </script>
+</body>
+</html>
