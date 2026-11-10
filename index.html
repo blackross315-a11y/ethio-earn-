@@ -260,34 +260,39 @@ setInterval(() => {
 
 document.addEventListener('DOMContentLoaded', () => { applyLanguage(); update(); });
 // የቴሌግራም ማጋሪያ ቁልፍ መፍጠሪያ እና ማጋሪያ ሎጂክ
-let inviteCard = document.getElementById('inviteTitle') ? document.getElementById('inviteTitle').parentElement : null;
+    let inviteCard = document.getElementById('inviteTitle') ? document.getElementById('inviteTitle').parentElement : null;
 
-if (inviteCard && !document.getElementById('telegramShareBtn')) {
-    let shareBtn = document.createElement('button');
-    shareBtn.id = 'telegramShareBtn';
-    shareBtn.className = 'primary';
-    shareBtn.style.background = '#0088cc';
-    shareBtn.style.color = '#ffffff';
-    shareBtn.style.marginTop = '10px';
-    shareBtn.style.padding = '10px 20px';
-    shareBtn.style.border = 'none';
-    shareBtn.style.borderRadius = '5px';
-    shareBtn.style.cursor = 'pointer';
-    shareBtn.style.fontWeight = 'bold';
-    shareBtn.style.width = '100%';
-    
-    let lang = 'am'; 
-    shareBtn.textContent = lang === 'am' ? '🔗 በቴሌግራም ጋብዙ' : '🔗 Invite on Telegram';
-    
-    shareBtn.onclick = () => {
-        let text = lang === 'am' ? 
-            'ወደ Ethio Earn ይግቡና በኤሌክትሮኒክስ ዕቃዎች ጨረታ ይሳተፉ! የማጋሪያ ኮዴ፦ ETHIO100' : 
-            'Join Ethio Earn and participate in electronics auctions! My referral code: ETHIO100';
+    if (inviteCard && !document.getElementById('telegramShareBtn')) {
+        let shareBtn = document.createElement('button');
+        shareBtn.id = 'telegramShareBtn';
+        shareBtn.className = 'primary';
+        shareBtn.style.background = '#0088cc';
+        shareBtn.style.color = '#ffffff';
+        shareBtn.style.marginTop = '10px';
+        shareBtn.style.padding = '10px 20px';
+        shareBtn.style.border = 'none';
+        shareBtn.style.borderRadius = '5px';
+        shareBtn.style.cursor = 'pointer';
+        shareBtn.style.fontWeight = 'bold';
+        shareBtn.style.width = '100%';
         
-        let url = window.location.href; 
-        let telegramUrl = `https://t.me{encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
-        window.open(telegramUrl, '_blank');
-    };
-    
-    inviteCard.appendChild(shareBtn);
-}
+        let lang = 'am'; 
+        shareBtn.textContent = lang === 'am' ? '🔗 በቴሌግራም ጋብዙ' : '🔗 Invite on Telegram';
+        
+        shareBtn.onclick = () => {
+            let text = lang === 'am' ? 
+                'ወደ Ethio Earn ይግቡና በኤሌክትሮኒክስ ዕቃዎች ጨረታ ይሳተፉ! የማጋሪያ ኮዴ፦ ETHIO100' : 
+                'Join Ethio Earn and participate in electronics auctions! My referral code: ETHIO100';
+            
+            let url = window.location.href; 
+            let telegramUrl = 'https://t.me' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text);
+            window.open(telegramUrl, '_blank');
+        };
+        
+        inviteCard.appendChild(shareBtn);
+    }
+});
+</script>
+</body>
+</html>
+
