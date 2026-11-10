@@ -184,3 +184,81 @@ const translations = {
         startPrice1: 'Starting bid: 70 ETB', startPrice2: 'Starting bid: 70 ETB', auctionPage: '🏆 Auctions', phoneTitle: 'Smartphone Auction',
         highestBidLabel: 'Highest demo bid:', fillPoints: '100 POINTS', bidBtn: 'Place demo bid (-10 points)', tasksTitle: '🎯 Tasks',
         dailyTitle: 'Daily welcome task', dailyReward: 'Demo reward: 5 points', collectBtn: 'Collect points', inviteTitle: '🤝 Invite friends',
+    }
+};
+
+let points = Number(localStorage.getItem('ethioPoints') || 100);
+let highestBid = Number(localStorage.getItem('ethioBid') || 70);
+let lang = localStorage.getItem('ethioLang') || 'en';
+
+function update() {
+    if(document.getElementById('homePoints')) document.getElementById('homePoints').textContent = points;
+    if(document.getElementById('walletPoints')) document.getElementById('walletPoints').textContent = points;
+    if(document.getElementById('highestBid')) document.getElementById('highestBid').textContent = highestBid + ' ETB';
+}
+
+function openPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('selected'));
+    const activePage = document.getElementById(id);
+    if (activePage) activePage.classList.add('active');
+    if (btn) { btn.classList.add('selected'); } else {
+        const navBtn = document.getElementById('nav' + id.charAt(0).toUpperCase() + id.slice(1));
+        if (navBtn) navBtn.classList.add('selected');
+    }
+    window.scrollTo(0, 0);
+}
+
+function placeBid() {
+    if (points < 10) { alert(lang === 'am' ? 'በቂ የዲሞ ነጥብ የሎትም!!' : 'Not enough demo points!'); return; }
+    points -= 10; highestBid += 10; save(); update();
+    alert(lang === 'am' ? 'የመጫረቻ ጨረታ ተሳክቷል!' : 'Demo bid placed!');
+}
+
+function taskReward() {
+    let today = new Date().toDateString();
+    if (localStorage.getItem('ethioTaskDay') === today) { alert(lang === 'am' ? 'የዛሬውን ሽልማት ቀድመው ወስደዋል!' : 'You already collected today!'); return; }
+    points += 5; localStorage.setItem('ethioTaskDay', today); save(); update();
+    alert(lang === 'am' ? '5 ነጥብ ተጨምሯል!' : '5 demo points added!');
+}
+
+function copyCode() {
+    if (navigator.clipboard) { navigator.clipboard.writeText('ETHIO100').then(() => { alert(lang === 'am' ? 'ኮዱ ኮፒ ተደርጓል!' : 'Code copied!'); }); }
+}
+
+function changeLang() { lang = (lang === 'en' ? 'am' : 'en'); localStorage.setItem('ethioLang', lang); applyLanguage(); update(); }
+
+function applyLanguage() {
+    let t = translations[lang];
+    Object.keys(t).forEach(key => { let el = document.getElementById(key); if (el) el.textContent = t[key]; });
+    let langBtn = document.getElementById('langBtn');
+    if (langBtn) { langBtn.textContent = (lang === 'en' ? 'አማርኛ' : 'English'); }
+    document.documentElement.lang = lang;
+}
+
+function save() { localStorage.setItem('ethioPoints', points); localStorage.setItem('ethioBid', highestBid); }
+
+// የቀጥታ ሰዓት ቆጣሪ ማስቆጠሪያ (5 ደቂቃ)
+let timeLeft = 300;
+setInterval(() => {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    if (seconds < 10) seconds = '0' + seconds;
+    let timerEl = document.getElementById('timer');
+    if (!timerEl) {
+        let phoneTitle = document.getElementById('phoneTitle');
+        if (phoneTitle) {
+            let p = document.createElement('p');
+            p.innerHTML = `⏱ የቀረው ጊዜ፦ <span id="timer" style="color: #ff4d4d; font-weight: bold;">05:00</span>`;
+            phoneTitle.after(p);
+        }
+    } else {
+        timerEl.textContent = timeLeft > 0 ? `${minutes}:${seconds}` : "ጨረታው አልቋል!";
+    }
+    timeLeft--;
+}, 1000);
+
+document.addEventListener('DOMContentLoaded', () => { applyLanguage(); update(); });
+</script>
+</body>
+</html>
