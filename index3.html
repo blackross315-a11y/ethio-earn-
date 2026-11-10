@@ -1,0 +1,94 @@
+<button onclick="placeBid()" id="btnPlaceBid">Place demo bid (+10 points)</button>
+</div>
+</section>
+<section id="tasks" class="page">
+<h2 id="txtTasksPageTitle">🎯 Tasks</h2>
+<div class="card">
+<h3 id="txtDailyTaskTitle">Daily welcome task</h3>
+<p id="txtDailyTaskReward">Demo reward: 5 points</p>
+<button onclick="taskReward()" id="btnCollectPoints">Collect demo points</button>
+</div>
+<div class="card">
+<h3>🤝 Invite friends</h3>
+<p>Your referral code:</p>
+<b>ETHIO100</b>
+</div>
+</section>
+<section id="wallet" class="page">
+<h2 id="txtWalletPageTitle">💰 My Wallet</h2>
+<div class="card">
+<p id="txtWalletPointsDesc">Demo points balance</p>
+<div class="big" id="walletPoints">100</div>
+<p id="txtWalletDisclaimer">These are demonstration points, not money or withdrawable funds.</p>
+</div>
+</section>
+<section id="profile" class="page">
+<h2 id="txtProfilePageTitle">👤 My Profile</h2>
+<div class="card">
+<p id="txtProfAccount">Account: Guest</p>
+<p id="txtProfRefCode">Referral code: ETHIO100</p>
+<p id="txtProfLevel">Level: Beginner</p>
+</div>
+</section>
+</main>
+<nav>
+<button onclick="openPage('home')" id="navHome">🏠 Home</button>
+<button onclick="openPage('auction')" id="navAuction">🔨 Auction</button>
+<button onclick="openPage('tasks')" id="navTasks">🎯 Tasks</button>
+<button onclick="openPage('wallet')" id="navWallet">💰 Wallet</button>
+<button onclick="openPage('profile')" id="navProfile">👤 Profile</button>
+</nav>
+
+<script>
+let points=100;
+let currentLang = 'en';
+
+const translations = {
+    en: {
+        mainTitle: "ETHIO EARN",
+        subTitle: "EARN MORE · WIN MORE",
+        welcomeBonus: "🎁 WELCOME BONUS",
+        bonusAmount: "100 POINTS",
+        welcomeDesc: "Welcome to your electronics rewards community",
+        myPointsLabel: "🪙 MY POINTS",
+        referralsLabel: "👥 REFERRALS",
+        auctionsSectionTitle: "🔥 Electronics auctions",
+        prod1: "Smartphones", prod2: "Laptops", prod3: "Earphones", prod4: "Electronics",
+        price1: "Starting: 70 ETB", price2: "Starting: 70 ETB", price3: "Starting: 70 ETB", price4: "Starting: 70 ETB",
+        btnView: "View",
+        auctionPageTitle: "🏆 Auctions",
+        auctionItemTitle: "Smartphone Auction",
+        auctionStartPrice: "Demo starting bid: 70 ETB",
+        highestBidLabel: "Highest demo bid:",
+        btnPlaceBid: "Place demo bid (+10 points)",
+        tasksPageTitle: "🎯 Tasks",
+        dailyTaskTitle: "Daily welcome task",
+        dailyTaskReward: "Demo reward: 5 points",
+        btnCollectPoints: "Collect demo points",
+        walletPageTitle: "💰 My Wallet",
+        walletPointsDesc: "Demo points balance",
+        walletDisclaimer: "These are demonstration points, not money or withdrawable funds.",
+        profilePageTitle: "👤 My Profile",
+        profAccount: "Account: Guest",
+        profRefCode: "Referral code: ETHIO100",
+        profLevel: "Level: Beginner",
+        navHome: "🏠 Home", navAuction: "🔨 Auction", navTasks: "🎯 Tasks", navWallet: "💰 Wallet", navProfile: "👤 Profile",
+        notEnough: "Not enough demo points",
+        bidPlaced: "Demo bid placed!",
+        rewardAdded: "5 demo points added!"
+    },
+    am: {
+        mainTitle: "ኢትዮ እርን",
+        subTitle: "ብዙ ያግኙ · ይሸልሙ",
+        welcomeBonus: "🎁 የእንኳን ደህና መጡ ስጦታ",
+        bonusAmount: "100 ነጥቦች",
+        welcomeDesc: "ወደ ኤሌክትሮኒክስ ሽልማት ማህበረሰብዎ እንኳን ደህና መጡ",
+        myPointsLabel: "🪙 የእኔ ነጥቦች",
+        referralsLabel: "👥 የተጋበዙ ሰዎች",
+        auctionsSectionTitle: "🔥 የኤሌክትሮኒክስ ጨረታዎች",
+        prod1: "ስማርትፎኖች", prod2: "ላፕቶፖች", prod3: "ኢርፎኖች", prod4: "ኤሌክትሮኒክስ",
+        price1: "መነሻ: 70 ብር", price2: "መነሻ: 70 ብር", price3: "መነሻ: 70 ብር", price4: "መነሻ: 70 ብር",
+        btnView: "እይ",
+        auctionPageTitle: "🏆 ጨረታዎች",
+        auctionItemTitle: "የስማርትፎን ጨረታ",
+        auctionStartPrice: "የዴሞ መነሻ መጫረቻ: 70 ብር",
