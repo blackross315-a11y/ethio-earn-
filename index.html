@@ -6,48 +6,173 @@
     <title>Ethio Earn</title>
     <style>
         :root {
-            --bg-color: #0a110d;
-            --card-bg: #112219;
+            --bg-color: #050f08;
+            --card-bg: #0b1a10;
             --accent-green: #00cc66;
+            --gold: #d4af37;
             --text-color: #ffffff;
             --text-muted: #889990;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 80px; }
         
-        /* Header */
-        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a2e22; }
-        .logo { font-weight: bold; font-size: 1.2rem; color: var(--text-color); }
-        .lang-badge { background: #1a2e22; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: var(--accent-green); }
+        /* Gold iPhone Style Header */
+        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gold); background: linear-gradient(180deg, #111, #000); }
+        .logo { font-weight: bold; font-size: 1.3rem; color: var(--gold); letter-spacing: 1px; }
+        .lang-badge { background: #222; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; color: var(--gold); border: 1px solid var(--gold); }
 
         /* Navigation Bottom Bar */
-        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1a13; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #1a2e22; z-index: 1000; }
-        .nav-item { background: none; border: none; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; font-size: 0.8rem; cursor: pointer; width: 20%; }
-        .nav-item.active { color: var(--accent-green); }
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #000000; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #222; z-index: 1000; }
+        .nav-item { background: none; border: none; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; font-size: 0.8rem; cursor: pointer; width: 20%; transition: 0.3s; }
+        .nav-item.active { color: var(--accent-green); font-weight: bold; }
         .nav-item svg { width: 24px; height: 24px; margin-bottom: 4px; fill: currentColor; }
 
         /* Pages */
-        .page { display: none; padding: 20px; }
+        .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* Cards & UI Elements */
-        .card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #1a3324; }
-        .welcome-card { background: linear-gradient(135deg, #0b2b1a, #112219); border: 1px solid var(--accent-green); }
-        .points-title { font-size: 2rem; font-weight: bold; color: var(--accent-green); margin: 10px 0; }
-        .stats-grid { display: flex; gap: 15px; margin-bottom: 20px; }
-        .stat-box { flex: 1; background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid #1a3324; }
-        .stat-val { font-size: 1.5rem; font-weight: bold; margin-top: 5px; }
+        .card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #15301d; }
+        .welcome-card { background: linear-gradient(135deg, #072212, #0b1a10); border: 1px solid var(--accent-green); position: relative; overflow: hidden; }
+        .welcome-card::before { content: '🎁'; position: absolute; right: 15px; top: 15px; font-size: 2rem; opacity: 0.2; }
+        
+        .points-title { font-size: 2.2rem; font-weight: bold; color: var(--accent-green); margin: 10px 0; }
+        .stats-grid { display: flex; gap: 15px; margin-bottom: 25px; }
+        .stat-box { flex: 1; background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid #15301d; }
+        .stat-val { font-size: 1.6rem; font-weight: bold; margin-top: 5px; color: #fff; }
 
-        /* Grid */
+        /* Grid for Products */
         .grid { display: flex; gap: 15px; margin-top: 15px; }
-        .grid-item { flex: 1; background: var(--card-bg); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #1a3324; cursor: pointer; }
-        .grid-item:hover { border-color: var(--accent-green); }
+        .grid-item { flex: 1; background: var(--card-bg); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #15301d; transition: 0.3s; }
+        .grid-item:hover { border-color: var(--accent-green); transform: translateY(-2px); }
         .grid-icon { font-size: 2.5rem; margin-bottom: 10px; }
 
-        /* Buttons */
-        .btn { background: var(--accent-green); color: #000; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+        /* Buttons & Inputs */
+        .btn { background: var(--accent-green); color: #000; border: none; padding: 14px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
         .btn-tg { background: #0088cc; color: #fff; }
+        input, select { width: 100%; padding: 14px; background: #050f08; border: 1px solid #15301d; border-radius: 10px; color: #fff; margin-top: 8px; margin-bottom: 15px; font-size: 1rem; }
+    </style>
+</head>
+<body>
 
-        /* Inputs */
-        input, select { width: 100%; padding: 12px; background: #0d1a13; border: 1px solid #1a3324; border-radius: 8px; color: #fff; margin-top: 8px; margin-bottom: 15px; font-size: 1rem; }
-    </style>i
+    <div class="header">
+        <div class="logo">Ethio Earn</div>
+        <div class="lang-badge">English</div>
+    </div>
+
+    <!-- 1. HOME PAGE -->
+    <div id="homePage" class="page active">
+        <div class="card welcome-card">
+            <div style="font-weight: bold; font-size: 0.9rem; letter-spacing: 1px;">WELCOME BONUS</div>
+            <div class="points-title">100 POINTS</div>
+            <div style="color: var(--text-muted); font-size: 0.9rem;">Welcome to your electronics rewards community</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span style="color: #ffcc00; font-size: 0.85rem; font-weight: bold;">🟡 MY POINTS</span>
+                <div class="stat-val">100</div>
+            </div>
+            <div class="stat-box">
+                <span style="color: #0088cc; font-size: 0.85rem; font-weight: bold;">👥 REFERRALS</span>
+                <div class="stat-val">0</div>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 10px; font-size: 1.1rem; padding-left: 5px;">🔥 Electronics Auctions</h3>
+        <div class="grid">
+            <div class="grid-item" onclick="switchTab('auction')">
+                <div class="grid-icon">📱</div>
+                <h4 style="font-size: 0.95rem;">Smartphones</h4>
+                <p style="color: var(--accent-green); font-size: 0.85rem; margin-top: 5px; font-weight: bold;">Starting bid: 70 ETB</p>
+            </div>
+            <div class="grid-item" onclick="switchTab('auction')">
+                <div class="grid-icon">💻</div>
+                <h4 style="font-size: 0.95rem;">Laptops</h4>
+                <p style="color: var(--accent-green); font-size: 0.85rem; margin-top: 5px; font-weight: bold;">Starting bid: 70 ETB</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. AUCTION PAGE -->
+    <div id="auctionPage" class="page">
+        <h3 style="margin-bottom: 15px; font-size: 1.1rem;">🛍️ የቀጥታ ጨረታዎች (Live Auctions)</h3>
+        <div class="card">
+            <h4 style="color: var(--gold);">iPhone 16 Pro Max</h4>
+            <p style="color: var(--text-muted); margin: 8px 0;">አሁን ያለው ከፍተኛ ዋጋ: <span style="color: var(--accent-green); font-weight: bold;">850 Points</span></p>
+            <input type="number" id="bidAmount" placeholder="የነጥብ መጠን ያስገቡ...">
+            <button class="btn" onclick="placeBid()">🔨 ጨረታ አስገባ (Place Bid)</button>
+        </div>
+    </div>
+
+    <!-- 3. TASKS PAGE -->
+    <div id="tasksPage" class="page">
+        <h3 style="margin-bottom: 15px; font-size: 1.1rem;">📋 ነፃ ነጥብ መሰብሰቢያ ተግባራት</h3>
+        <div class="card">
+            <h4>🔗 ጓደኞችን ይጋብዙ (Referral System)</h4>
+            <p style="color: var(--text-muted); margin: 8px 0; font-size: 0.9rem;">እያንዳንዱን ሰው ሲጋብዙ 50 ነጥብ ያገኛሉ። ተጋባዡም 100 ነጥብ ያገኛል!</p>
+            <button class="btn btn-tg" onclick="shareOnTelegram()">🔗 በቴሌግራም ጋብዙ</button>
+        </div>
+    </div>
+
+    <!-- 4. WALLET PAGE -->
+    <div id="walletPage" class="page">
+        <h3 style="margin-bottom: 15px; font-size: 1.1rem;">💰 የገንዘብ ማውጫ (Wallet)</h3>
+        <div class="card">
+            <p>ያለዎት ጠቅላላ ነጥብ: <span style="color: var(--accent-green); font-weight: bold;">100 Points</span></p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">አነስተኛ ማውጫ (Minimum Withdrawal): 1000 Points</p>
+            
+            <label style="font-size: 0.9rem; color: var(--text-muted);">የማውጫ መንገድ ይምረጡ</label>
+            <select>
+                <option>Telebirr (ቴሌብር)</option>
+                <option>CBE (የኢትዮጵያ ንግድ ባንክ)</option>
+            </select>
+            
+            <label style="font-size: 0.9rem; color: var(--text-muted);">ስልክ ቁጥር ወይም አካውንት ያስገቡ</label>
+            <input type="text" placeholder="09... / Account Number">
+            
+            <button class="btn" onclick="alert('ማስተካከያ፡ ነጥብዎ ከ 1000 በታች ስለሆነ ማውጣት አይችሉም!')">💸 ብር አውጣ (Withdraw)</button>
+        </div>
+    </div>
+
+    <!-- 5. PROFILE PAGE -->
+    <div id="profilePage" class="page">
+        <h3 style="margin-bottom: 15px; font-size: 1.1rem;">👤 መገለጫ (Profile)</h3>
+        <div class="card">
+            <p style="margin-bottom: 8px;">የተጠቃሚ ስም: User_1001</p>
+            <p>የግብዣ ኮድ (Referral Code): <b style="color: var(--accent-green)">ETHIO100</b></p>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <div class="nav-bar">
+        <button class="nav-item active" onclick="switchTab('home')">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
+        </button>
+        <button class="nav-item" onclick="switchTab('auction')">
+            <svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 6.8c-.72 0-1.3-.58-1.3-1.3s.58-1.3 1.3-1.3 1.3.58 1.3 1.3-.58 1.3-1.3 1.3z"/></svg>
+            Auction
+        </button>
+        <button class="nav-item" onclick="switchTab('tasks')">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            Tasks
+        </button>
+        <button class="nav-item" onclick="switchTab('wallet')">
+            <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            Wallet
+        </button>
+        <button class="nav-item" onclick="switchTab('profile')">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+            Profile
+        </button>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            document.getElementById(tabName + 'Page').classList.add('active');
+            
