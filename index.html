@@ -13,164 +13,53 @@
             --text-muted: #a0aec0;
             --accent-gold: #ffd700;
         }
-
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: var(--bg-color); 
             color: var(--text-main);
-            margin: 0; 
-            padding: 0; 
-            padding-bottom: 90px;
+            margin: 0; padding: 0; padding-bottom: 90px;
         }
-
-        header {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-area h1 {
-            color: var(--primary-green);
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 1px;
-        }
-
-        .logo-area p {
-            color: var(--text-muted);
-            margin: 5px 0 0 0;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-
-        .notification-icon {
-            font-size: 24px;
-            color: var(--accent-gold);
-            cursor: pointer;
-        }
-
+        header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-area h1 { color: var(--primary-green); margin: 0; font-size: 24px; letter-spacing: 1px; }
+        .logo-area p { color: var(--text-muted); margin: 5px 0 0 0; font-size: 11px; text-transform: uppercase; }
+        .notification-icon { font-size: 24px; color: var(--accent-gold); cursor: pointer; }
         .page { display: none; padding: 0 20px; }
-        .page.active { display: block; }
-
+        .page.active { display: block !important; }
         .card { 
-            background-color: var(--card-bg); 
-            padding: 20px; 
-            margin-bottom: 15px; 
-            border-radius: 16px; 
-            border: 1px solid rgba(255,255,255,0.05);
+            background-color: var(--card-bg); padding: 20px; margin-bottom: 15px; 
+            border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);
         }
-
         .welcome-card {
             background: linear-gradient(135deg, #132a1e 0%, #084d2c 100%);
             border: 1px solid rgba(0, 230, 118, 0.2);
         }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .dash-card {
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.02);
-        }
-
-        .dash-card .label {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .dash-card .value {
-            font-size: 28px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            margin: 25px 0 15px 0;
-        }
-
-        .auction-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .product-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 15px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.02);
-            cursor: pointer;
-        }
-
-        .product-icon {
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .dash-card { background-color: var(--card-bg); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02); }
+        .dash-card .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; }
+        .dash-card .value { font-size: 28px; font-weight: bold; margin-top: 8px; }
+        .section-title { font-size: 20px; margin: 25px 0 15px 0; }
+        .auction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .product-card { background-color: var(--card-bg); border-radius: 16px; padding: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.02); cursor: pointer; }
+        .product-icon { height: 100px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
         .product-card h4 { margin: 0 0 8px 0; font-size: 16px; text-align: left; }
         .product-card p { margin: 0; font-size: 12px; text-align: left; color: var(--primary-green); font-weight: 500; }
-
-        button { 
-            width: 100%;
-            padding: 14px; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-weight: bold;
-            font-size: 15px;
-            margin-top: 10px;
-        }
+        button { width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 10px; }
         button.primary { background-color: var(--primary-green); color: #0b1a13; }
         button.secondary { background-color: rgba(255,255,255,0.08); color: var(--text-main); }
-
         nav { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0;
-            width: 100%; 
-            background-color: #07120d; 
-            display: flex; 
-            justify-content: space-around; 
-            padding: 12px 0; 
-            border-top: 1px solid rgba(255,255,255,0.05); 
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background-color: #07120d; display: flex; justify-content: space-around; 
+            padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.05); 
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.3); z-index: 1000;
         }
         nav button { 
-            background: none; 
-            color: var(--text-muted); 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 4px;
-            width: auto;
-            font-size: 11px;
-            font-weight: 500;
-            margin: 0;
+            background: none; color: var(--text-muted); display: flex;
+            flex-direction: column; align-items: center; gap: 4px;
+            padding: 4px; width: auto; font-size: 11px; font-weight: 500; margin: 0;
         }
-        nav button span.icon { font-size: 20px; }
         nav button.selected { color: var(--primary-green); }
-
         .lang-container { padding: 0 20px; text-align: right; margin-bottom: 10px; }
-        .lang-btn {
-            background: rgba(255,255,255,0.05); color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px;
-            border-radius: 20px; width: auto; font-size: 12px; cursor: pointer;
-        }
+        .lang-btn { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 20px; width: auto; font-size: 12px; cursor: pointer; }
         .big { font-size: 28px; font-weight: bold; }
         .note { font-size: 13px; color: var(--text-muted); margin-top: 10px; }
     </style>
@@ -190,14 +79,12 @@
 </div>
 
 <main>
-    <!-- HOME PAGE -->
     <section id="home" class="page active">
         <div class="card welcome-card">
             <h3 id="welcome">🎁 WELCOME BONUS</h3>
             <div id="fillPoints" class="big" style="font-size: 32px; font-weight: 900; margin: 10px 0; color: var(--primary-green);">100 POINTS</div>
             <p id="welcomeDesc" style="margin: 0;">Welcome to your electronics rewards community</p>
         </div>
-
         <div class="dashboard-grid">
             <div class="dash-card">
                 <div class="label" id="pointsLabel">🪙 MY POINTS</div>
@@ -208,13 +95,11 @@
                 <div class="value">0</div>
             </div>
         </div>
-
         <h3 class="section-title" id="auctionTitle">🔥 Electronics auctions</h3>
-        
         <div class="auction-grid">
-            <div class="product-card" onclick="openPage('auction', document.getElementById('navAuction'))">
+            <div class="product-card" onclick="openPage('auction')">
                 <div class="product-icon">
-                    <svg width="40" height="70" viewBox="0 0 40 70" fill="none" xmlns="http://w3.org">
+                    <svg width="40" height="70" viewBox="0 0 40 70" fill="none">
                         <rect x="2" y="2" width="36" height="66" rx="6" stroke="#00e676" stroke-width="2"/>
                         <circle cx="20" cy="60" r="2" fill="#00e676"/>
                         <rect x="8" y="10" width="24" height="40" fill="#00e676" opacity="0.2"/>
@@ -223,10 +108,9 @@
                 <h4 id="prod1">Smartphones</h4>
                 <p id="startPrice1">Starting bid: 70 ETB</p>
             </div>
-
-            <div class="product-card" onclick="openPage('auction', document.getElementById('navAuction'))">
+            <div class="product-card" onclick="openPage('auction')">
                 <div class="product-icon">
-                    <svg width="70" height="50" viewBox="0 0 70 50" fill="none" xmlns="http://w3.org">
+                    <svg width="70" height="50" viewBox="0 0 70 50" fill="none">
                         <rect x="10" y="5" width="50" height="32" rx="4" stroke="#ffffff" stroke-width="2"/>
                         <rect x="5" y="37" width="60" height="4" rx="2" fill="#ffffff"/>
                     </svg>
@@ -237,7 +121,6 @@
         </div>
     </section>
 
-    <!-- AUCTION PAGE -->
     <section id="auction" class="page">
         <h2 id="auctionPage">🏆 Auctions</h2>
         <div class="card">
@@ -247,7 +130,6 @@
         </div>
     </section>
 
-    <!-- TASKS PAGE -->
     <section id="tasks" class="page">
         <h2 id="tasksTitle">🎯 Tasks</h2>
         <div class="card">
@@ -263,7 +145,6 @@
         </div>
     </section>
 
-    <!-- WALLET PAGE -->
     <section id="wallet" class="page">
         <h2 id="walletTitle">💰 My Wallet</h2>
         <div class="card">
@@ -273,7 +154,6 @@
         </div>
     </section>
 
-    <!-- PROFILE PAGE -->
     <section id="profile" class="page">
         <h2 id="profileTitle">👤 My Profile</h2>
         <div class="card">
@@ -289,3 +169,18 @@
 </main>
 
 <nav>
+    <button onclick="openPage('home', this)" id="navHome" class="selected">🏠 <span id="navHomeText">Home</span></button>
+    <button onclick="openPage('auction', this)" id="navAuction">🔨 <span id="navAuctionText">Auction</span></button>
+    <button onclick="openPage('tasks', this)" id="navTasks">🎯 <span id="navTasksText">Tasks</span></button>
+    <button onclick="openPage('wallet', this)" id="navWallet">💰 <span id="navWalletText">Wallet</span></button>
+    <button onclick="openPage('profile', this)" id="navProfile">👤 <span id="navProfileText">Profile</span></button>
+</nav>
+
+<script>
+const translations = {
+    en: {
+        subtitle: 'EARN MORE · WIN MORE', welcome: '🎁 WELCOME BONUS', welcomeDesc: 'Welcome to your electronics rewards community!',
+        pointsLabel: '🪙 MY POINTS', refLabel: '👥 REFERRALS', auctionTitle: '🔥 Electronics auctions', prod1: 'Smartphones', prod2: 'Laptops',
+        startPrice1: 'Starting bid: 70 ETB', startPrice2: 'Starting bid: 70 ETB', auctionPage: '🏆 Auctions', phoneTitle: 'Smartphone Auction',
+        highestBidLabel: 'Highest demo bid:', fillPoints: '100 POINTS', bidBtn: 'Place demo bid (-10 points)', tasksTitle: '🎯 Tasks',
+        dailyTitle: 'Daily welcome task', dailyReward: 'Demo reward: 5 points', collectBtn: 'Collect points', inviteTitle: '🤝 Invite friends',
