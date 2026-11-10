@@ -1,73 +1,96 @@
-</script>function update(){
-document.getElementById('homePoints').textContent=points;
-document.getElementById('walletPoints').textContent=points;
-document.getElementById('highestBid').textContent=highestBid+' ETB';
+// ማሳሰቢያ፦ translations የተባለው የትርጉም መዝገብ (Object) ከዚህ ኮድ በላይ መኖሩን ያረጋግጡ።
+
+// 1. የገጹን ዳታዎች (ነጥብ እና ጨረታ) የማሳያ ተግባር
+function update() {
+  if(document.getElementById('homePoints')) document.getElementById('homePoints').textContent = points;
+  if(document.getElementById('walletPoints')) document.getElementById('walletPoints').textContent = points;
+  if(document.getElementById('highestBid')) document.getElementById('highestBid').textContent = highestBid + ' ETB';
 }
 
-function openPage(id,btn){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-document.querySelectorAll('nav button').forEach(b=>b.classList.remove('selected'));
-if(btn)btn.classList.add('selected');
-else{
-let index=['home','auction','tasks','wallet','profile'].indexOf(id);
-document.querySelectorAll('nav button')[index].classList.add('selected');
-}
-window.scrollTo(0,0);
-}
-
-function placeBid(){
-if(points<10){
-alert(lang==='am'?'በቂ ነጥብ የለህም!':'Not enough demo points!');
-return;
-}
-points-=10;
-highestBid+=10;
-save();
-update();
-alert(lang==='am'?'የሙከራ ጨረታው ተሳክቷል!':'Demo bid placed!');
+// 2. ገጾችን ለማቀያየር የሚያገለግል ተግባር (Navigation)
+function openPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('selected'));
+  
+  const activePage = document.getElementById(id);
+  if (activePage) activePage.classList.add('active');
+  if (btn) btn.classList.add('selected');
+  
+  window.scrollTo(0, 0);
 }
 
-function taskReward(){
-let today=new Date().toDateString();
-if(localStorage.getItem('ethioTaskDay')===today){
-alert(lang==='am'?'የዛሬን ሽልማት ተቀብለሃል!':'You already collected today!');
-return;
-}
-points+=5;
-localStorage.setItem('ethioTaskDay',today);
-save();
-update();
-alert(lang==='am'?'5 ነጥብ ተጨምሯል!':'5 demo points added!');
-}
-
-function copyCode(){
-if(navigator.clipboard){
-navigator.clipboard.writeText('ETHIO100')
-.then(()=>alert(lang==='am'?'ኮዱ ተኮፒ ተደርጓል!':'Code copied!'))
-.catch(()=>alert('ETHIO100'));
-}else alert('ETHIO100');
+// 3. የጨረታ መጫረቻ ቁልፍ ሎጂክ
+function placeBid() {
+  if (points < 10) {
+    alert(lang === 'am' ? 'በቂ የዲሞ ነጥብ የሎትም!!' : 'Not enough demo points!');
+    return;
+  }
+  points -= 10;
+  highestBid += 10;
+  save();
+  update();
+  alert(lang === 'am' ? 'የመጫረቻ ጨረታ ተሳክቷል!' : 'Demo bid placed!');
 }
 
-function changeLang(){
-lang=lang==='en'?'am':'en';
-localStorage.setItem('ethioLang',lang);
-applyLanguage();
+// 4. የዕለት ነጥብ መሰብሰቢያ ቁልፍ ሎጂክ (በቀን አንድ ጊዜ ብቻ)
+function taskReward() {
+  let today = new Date().toDateString();
+  if (localStorage.getItem('ethioTaskDay') === today) {
+    alert(lang === 'am' ? 'የዛሬውን ሽልማት ቀድመው ወስደዋል!' : 'You already collected today!');
+    return;
+  }
+  points += 5;
+  localStorage.setItem('ethioTaskDay', today);
+  save();
+  update();
+  alert(lang === 'am' ? '5 ነጥብ ተጨምሯል!' : '5 demo points added!');
 }
 
-function applyLanguage(){
-let t=translations[lang];
-Object.keys(t).forEach(key=>{
-let el=document.getElementById(key);
-if(el)el.textContent=t[key];
-});
-document.getElementById('langBtn').textContent=lang==='en'?'አማርኛ':'English';
-document.querySelectorAll('#view1,#view2,#view3,#view4').forEach(el=>el.textContent=t.view);
-document.documentElement.lang=lang;
+// 5. የግብዣ ኮድ መቅጃ ቁልፍ ሎጂክ
+function copyCode() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText('ETHIO100').then(() => {
+      alert(lang === 'am' ? 'ኮዱ ኮፒ ተደርጓል!' : 'Code copied!');
+    }).catch(() => {
+      alert('ETHIO100');
+    });
+  } else {
+    alert('ETHIO100');
+  }
 }
 
-applyLanguage();
-update();
-</script>
-</body>
-</html>
+// 6. ቋንቋ ለመቀየር የሚጠራ ተግባር
+function changeLang() {
+  lang = (lang === 'en' ? 'am' : 'en');
+  localStorage.setItem('ethioLang', lang);
+  applyLanguage();
+  update();
+}
+
+// 7. የተመረጠውን ቋንቋ በገጹ ላይ የሚተገብር ተግባር
+function applyLanguage() {
+  let t = translations[lang];
+  Object.keys(t).forEach(key => {
+    let el = document.getElementById(key);
+    if (el) el.textContent = t[key];
+  });
+  
+  // የቋንቋ መቀያየሪያ ቁልፍ ጽሑፍን ለመቀየር
+  let langBtn = document.getElementById('langBtn');
+  if (langBtn) {
+    langBtn.textContent = (lang === 'en' ? 'አማርኛ' : 'English');
+  }
+  
+  // በጨረታ ገጽ ላይ ያሉ እቃዎችን ስም ለመቀየር (view1, view2...)
+  document.querySelectorAll('#view1, #view2, #view3, #view4').forEach(el => {
+    if (t.view) el.textContent = t.view;
+  });
+  
+  document.documentElement.lang = lang;
+}
+
+// መረጃዎችን በ LocalStorage ላይ ለማስቀመጥ
+function save() {
+  localStorage.setItem('ethioPoints', points);
+  localStorage.setItem('ethioBid', highestBid);
+}
