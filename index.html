@@ -1,85 +1,138 @@
-    <script>
-        // 1. የፖይንት መረጃ ማግኛ
-        let points = parseInt(localStorage.getItem('ethioEarnPoints')) || 100;
-        let referrals = parseInt(localStorage.getItem('ethioEarnRefCount')) || 0;
-
-        function refreshPoints() {
-            document.getElementById('userPointsDisplay').innerText = points;
-            document.getElementById('welcomePoints').innerText = points + " POINTS";
-            document.getElementById('walletBalanceDisplay').innerText = points + " PTS";
-            document.getElementById('referralCountDisplay').innerText = referrals;
-            document.getElementById('etbEquivalent').innerText = (points / 10).toFixed(1);
-            document.getElementById('referralLinkInput').value = window.location.origin + window.location.pathname + "?ref=user" + Math.floor(1000 + Math.random() * 9000);
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethio Earn</title>
+    <!-- የቻርት መስሪያ ላይብረሪ -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        :root {
+            --bg-color: #050f08;
+            --card-bg: #0b1a10;
+            --accent-green: #00cc66;
+            --text-color: #ffffff;
+            --text-muted: #889990;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; padding-bottom: 80px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .menu-btn { font-size: 24px; background: none; border: none; color: white; cursor: pointer; }
+        .sidebar { position: fixed; top: 0; left: -250px; width: 250px; height: 100%; background: #040a06; border-right: 1px solid #122518; z-index: 1000; padding: 20px; transition: 0.3s; }
+        .sidebar.active { left: 0; }
+        .sidebar-item { padding: 15px 0; border-bottom: 1px solid #122518; color: white; cursor: pointer; font-size: 16px; }
 
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('ref') && !localStorage.getItem('referredUser')) {
-                localStorage.setItem('referredUser', 'true');
-                points += 10; referrals += 1;
-                localStorage.setItem('ethioEarnPoints', points);
-                localStorage.setItem('ethioEarnRefCount', referrals);
-            }
-            refreshPoints();
-            startCountdown('timer1', 21);
-            // የቻርቱ የዋጋ ቁጥሮች እዚህ በትክክል ገብተዋል [1000, 2000, ...]
-            createBiddingChart('chart1', [1000, 1500, 2300, 3100, 4000, 4500]);
-        };
+        .app-page { display: none; }
+        .app-page.active { display: block; }
 
-        // 2. ገጽ መቀያየሪያ (Navigation)
-        function switchPage(pageId) {
-            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            if(pageId === 'home') { document.getElementById('homePage').classList.add('active'); document.getElementById('nav-home').classList.add('active'); }
-            if(pageId === 'tasks') { document.getElementById('tasksPage').classList.add('active'); document.getElementById('nav-tasks').classList.add('active'); }
-            if(pageId === 'wallet') { document.getElementById('walletPage').classList.add('active'); document.getElementById('nav-wallet').classList.add('active'); }
-            if(document.getElementById('appSidebar')) { document.getElementById('appSidebar').classList.remove('active'); }
-        }
+        .welcome-card { background-color: var(--card-bg); border: 1px solid #15301d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .main-points { font-size: 36px; font-weight: 800; color: var(--accent-green); margin-top: 5px; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-box { background-color: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid #122518; }
+        .stat-value { font-size: 24px; font-weight: bold; }
+        
+        .auction-card { background-color: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid #122518; margin-bottom: 15px; }
+        .item-bid { color: var(--accent-green); font-weight: bold; }
+        .bidder-info { display: flex; gap: 15px; font-size: 13px; color: #ffcc00; margin: 8px 0; background: #112215; padding: 6px 10px; border-radius: 6px; width: fit-content; }
+        .countdown { background: #1a0f05; color: #ff9933; padding: 5px 10px; border-radius: 5px; font-size: 13px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .chart-container { width: 100%; height: 130px; margin-top: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 5px; }
+        
+        .interaction-bar { display: flex; gap: 15px; margin: 10px 0; border-top: 1px solid #15301d; padding-top: 10px; }
+        .int-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; }
+        .int-btn.active { color: #ff3366; }
+        
+        .comment-section { margin-top: 10px; display: flex; gap: 5px; }
+        .comment-input { flex: 1; padding: 8px; background: #050f08; border: 1px solid #122518; color: white; border-radius: 4px; }
+        .comment-btn { padding: 8px 12px; background: var(--accent-green); border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: black; }
 
-        function toggleSidebar() { document.getElementById('appSidebar').classList.toggle('active'); }
-        function completeTask(url) { window.open(url, '_blank'); points += 100; localStorage.setItem('ethioEarnPoints', points); refreshPoints(); alert("🎉 100 ፖይንት ተጨምሯል!"); }
-        function copyReferralLink() { let cp = document.getElementById('referralLinkInput'); cp.select(); navigator.clipboard.writeText(cp.value); alert("🔗 ሊንክ ኮፒ ሆኗል!"); }
+        .tasks-container { display: flex; flex-direction: column; gap: 12px; }
+        .task-card { background-color: var(--card-bg); padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #122518; }
+        .task-btn { background-color: var(--accent-green); color: #000; border: none; padding: 8px 16px; border-radius: 5px; font-weight: bold; cursor: pointer; }
 
-        // 3. የ 21 ቀን ቆጣሪ
-        function startCountdown(elementId, daysNeeded) {
-            let targetDate = new Date(); targetDate.setDate(targetDate.getDate() + daysNeeded);
-            setInterval(() => {
-                let distance = targetDate - new Date().getTime();
-                let days = Math.floor(distance / 86400000);
-                let hours = Math.floor((distance % 86400000) / 3600000);
-                let minutes = Math.floor((distance % 3600000) / 60000);
-                let seconds = Math.floor((distance % 60000) / 1000);
-                document.getElementById(elementId).innerText = `⏳ ቀሪ፡ ${days}ቀን ${hours}ሰ ${minutes}ደ ${seconds}ሰ`;
-            }, 1000);
-        }
+        .wallet-card { background: linear-gradient(135deg, #112516 0%, #051409 100%); border-radius: 12px; padding: 25px; border: 1px solid var(--accent-green); text-align: center; }
+        .withdraw-input { width: 100%; padding: 12px; margin: 15px 0; background: #050f08; border: 1px solid #122518; color: white; border-radius: 6px; text-align: center; }
+        .withdraw-btn { width: 100%; padding: 12px; background: #ff9933; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; color: black; }
 
-        function likeItem(btn) {
-            let countSpan = btn.querySelector('.count'); let currentCount = parseInt(countSpan.innerText);
-            btn.classList.toggle('active'); countSpan.innerText = btn.classList.contains('active') ? currentCount + 1 : currentCount - 1;
-        }
-        function shareItem() { alert("🔗 ሊንክ ኮፒ ሆኗል!"); }
-        function addComment(btn) {
-            let input = btn.previousElementSibling; let list = document.getElementById('comments-list-1');
-            if(input.value.trim() !== "") { let div = document.createElement('div'); div.innerText = "👉 " + input.value; list.appendChild(div); input.value = ""; }
-        }
+        .ref-card { background-color: var(--card-bg); border: 1px solid #1a3a22; border-radius: 10px; padding: 15px; margin-top: 15px; }
+        .ref-link-box { display: flex; gap: 5px; margin-top: 8px; }
+        .ref-input { flex: 1; padding: 8px; background: #050f08; border: 1px solid #122518; color: #ffcc00; border-radius: 4px; }
 
-        // 4. የዋጋ ቻርት መሳያ
-        function createBiddingChart(canvasId, baseData) {
-            const ctx = document.getElementById(canvasId).getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: { labels: ['D1', 'D5', 'D10', 'D15', 'D20', 'Now'], datasets: [{ data: baseData, borderColor: '#00cc66', borderWidth: 2, tension: 0.3, fill: false }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-            });
-        }
+        .navbar { position: fixed; bottom: 0; left: 0; right: 0; background-color: #040a06; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #122518; z-index: 100; }
+        .nav-item { text-align: center; font-size: 13px; color: var(--text-muted); cursor: pointer; width: 33%; line-height: 1.5; }
+        .nav-item.active { color: var(--accent-green); font-weight: bold; }
+    </style>
+</head>
+<body>
 
-        function processWithdraw() {
-            let amt = document.getElementById('withdrawAmount').value;
-            if(amt === "" || amt <= 0) { alert("እባክዎ ትክክለኛ የብር መጠን ያስገቡ!"); return; }
-            if(points < (amt * 10)) { alert("ይቅርታ፣ በቂ ፖይንት የለዎትም!"); }
-            else { alert("✅ ጥያቄዎ በቴሌብር በተሳካ ሁኔታ ተልኳል!"); }
-        }
-    </script>
-</body>
-</html>
+    <div class="header">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <h2>Ethio Earn</h2>
+        <span style="color:var(--accent-green); font-size: 14px;">English</span>
+    </div>
+
+    <div class="sidebar" id="appSidebar">
+        <div style="font-weight: bold; color: var(--accent-green); margin-bottom: 20px; cursor: pointer;" onclick="toggleSidebar()">✖ ዝጋ</div>
+        <div class="sidebar-item" onclick="switchPage('home')">🏠 መነሻ ገጽ (Home)</div>
+        <div class="sidebar-item" onclick="switchPage('tasks')">📋 ተግባራት (Tasks)</div>
+        <div class="sidebar-item" onclick="switchPage('wallet')">💳 የገንዘብ ከረጢት (Wallet)</div>
+    </div>
+
+    <!-- 1. HOME PAGE -->
+    <div id="homePage" class="app-page active">
+        <div class="welcome-card">
+            <div style="color: #ff9933; font-weight: bold; font-size: 14px;">🎁 WELCOME BONUS</div>
+            <div class="main-points" id="welcomePoints">100 POINTS</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">Welcome to your electronics rewards community</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box"><div style="font-size:12px; color:#ffcc00">● MY POINTS</div><div class="stat-value" id="userPointsDisplay">100</div></div>
+            <div class="stat-box"><div style="font-size:12px; color:#3399ff">👥 REFERRALS</div><div class="stat-value" id="referralCountDisplay">0</div></div>
+        </div>
+        
+        <div style="font-size: 16px; margin-bottom: 15px; color: #ffcc00; font-weight: bold;">🔥 Live Electronics Auctions (21 Days Limit)</div>
+        <div class="auction-card">
+            <div style="display: flex; align-items: center; gap: 15px;"><div style="font-size:40px;">📱</div><div><h3>iPhone 15 Pro Max</h3><div class="item-bid">Current Bid: 4,500 ETB</div></div></div>
+            <div class="bidder-info"><span>👥 ተጫራቾች: 148 ሰው</span><span>👁️ እይታዎች: 1.2k</span></div>
+            <div class="countdown" id="timer1">⏳ በመቆጠር ላይ...</div>
+            <div class="chart-container"><canvas id="chart1"></canvas></div>
+            <div class="interaction-bar"><button class="int-btn" onclick="likeItem(this)">❤️ <span class="count">24</span></button><button class="int-btn" onclick="shareItem()">🔗 Share</button></div>
+            <div class="comment-section"><input type="text" class="comment-input" placeholder="አስተያየት ይጻፉ..."><button class="comment-btn" onclick="addComment(this)">ይለጥፉ</button></div>
+            <div style="margin-top: 8px; font-size: 13px; color: var(--text-muted);" id="comments-list-1"></div>
+        </div>
+    </div>
+
+    <!-- 2. TASKS PAGE -->
+    <div id="tasksPage" class="app-page">
+        <div style="font-size: 18px; color: #ffcc00; margin-bottom: 15px; font-weight: bold;">📝 ማህበራዊ ተግባራት (Social Tasks)</div>
+        <div class="tasks-container">
+            <div class="task-card"><div><div>Follow Telegram Channel</div><div style="color:var(--accent-green); font-size:12px;">+100 Points</div></div><button class="task-btn" onclick="completeTask('https://t.me')">Follow</button></div>
+            <div class="task-card"><div><div>Follow TikTok Account</div><div style="color:var(--accent-green); font-size:12px;">+100 Points</div></div><button class="task-btn" onclick="completeTask('https://tiktok.com')">Follow</button></div>
+        </div>
+    </div>
+
+    <!-- 3. WALLET PAGE -->
+    <div id="walletPage" class="app-page">
+        <div style="font-size: 18px; color: #ffcc00; margin-bottom: 15px; font-weight: bold;">💳 የገንዘብ ከረጢትና ማውጫ</div>
+        <div class="wallet-card">
+            <div style="font-size: 14px; color: var(--text-muted);">ያለዎት አጠቃላይ ፖይንት</div>
+            <div style="font-size: 32px; font-weight: bold; color: var(--accent-green); margin: 10px 0;" id="walletBalanceDisplay">100 PTS</div>
+            <div style="font-size: 14px; color: #ff9933; margin-bottom: 10px;">እኩል ይሆናል ፦ <span id="etbEquivalent">10.0</span> ETB</div>
+            <input type="number" class="withdraw-input" id="withdrawAmount" placeholder="የብር መጠን ያስገቡ">
+            <button class="withdraw-btn" onclick="processWithdraw()">Withdraw via Telebirr</button>
+        </div>
+        <div class="ref-card">
+            <div style="font-weight: bold; color: #3399ff; font-size: 14px;">👥 ጓደኞችን ይጋብዙ (10% Referral Bonus)</div>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 5px 0;">ጓደኞችዎ ተግባራትን ሲሰሩ ከሚያገኙት ላይ የ 10% ኮሚሽን ያገኛሉ።</p>
+            <div class="ref-link-box">
+                <input type="text" class="ref-input" id="referralLinkInput" readonly>
+                <button class="task-btn" style="padding:8px 12px;" onclick="copyReferralLink()">ኮፒ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="nav-item active" id="nav-home" onclick="switchPage('home')">🏠<br>Home</div>
+        <div class="nav-item" id="nav-tasks" onclick="switchPage('tasks')">📋<br>Tasks</div>
