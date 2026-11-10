@@ -262,3 +262,22 @@ document.addEventListener('DOMContentLoaded', () => { applyLanguage(); update();
 </script>
 </body>
 </html>
+// የቴሌግራም ማጋሪያ ቁልፍ መፍጠሪያ እና ማጋሪያ ሎጂክ
+document.addEventListener('DOMContentLoaded', () => {
+    let inviteCard = document.getElementById('inviteTitle') ? document.getElementById('inviteTitle').parentElement : null;
+    if (inviteCard && !document.getElementById('telegramShareBtn')) {
+        let shareBtn = document.createElement('button');
+        shareBtn.id = 'telegramShareBtn';
+        shareBtn.className = 'primary';
+        shareBtn.style.background = '#0088cc';
+        shareBtn.style.color = '#ffffff';
+        shareBtn.style.marginTop = '10px';
+        shareBtn.textContent = lang === 'am' ? '🔗 በቴሌግራም ጋብዝ' : '🔗 Invite on Telegram';
+        
+        shareBtn.onclick = () => {
+            let text = encodeURIComponent(lang === 'am' ? 'ወደ Ethio Earn ይግቡና በኤሌክትሮኒክስ ዕቃዎች ጨረታ ይሳተፉ! የግብዣ ኮዴ፦ ETHIO100' : 'Join Ethio Earn and participate in electronics auctions! My referral code: ETHIO100');
+            window.open(`https://t.me{encodeURIComponent(window.location.href)}&text=${text}`, '_blank');
+        };
+        inviteCard.appendChild(shareBtn);
+    }
+});
