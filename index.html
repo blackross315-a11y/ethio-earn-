@@ -1,13 +1,172 @@
-// ማሳሰቢያ፦ translations የተባለው የትርጉም መዝገብ (Object) ከዚህ ኮድ በላይ መኖሩን ያረጋግጡ።
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethio Earn</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+        .page { display: none; padding: 20px; }
+        .page.active { display: block; }
+        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        button { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; }
+        button.primary { background: #28a745; color: white; }
+        button.secondary { background: #007bff; color: white; }
+        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; }
+        nav button { background: none; color: #333; }
+        nav button.selected { color: #007bff; font-weight: bold; }
+        .big { font-size: 24px; font-weight: bold; color: #28a745; }
+        .note { font-size: 12px; color: #777; }
+        .lang-switch { text-align: right; padding: 10px; }
+    </style>
+</head>
+<body>
 
-// 1. የገጹን ዳታዎች (ነጥብ እና ጨረታ) የማሳያ ተግባር
+<div class="lang-switch">
+    <button onclick="changeLang()" id="langBtn">English</button>
+</div>
+
+<main>
+    <!-- Home Page -->
+    <section id="home" class="page active">
+        <h2 id="welcome">🎁 የእንኳን ደህና መጡ ስጦታ</h2>
+        <div class="card">
+            <p id="welcomeDesc">ወደ ኢትዮ እርን እንኳን ደህና መጡ!</p>
+            <p id="pointsLabel">🪙 የእኔ ነጥቦች</p>
+            <div class="big" id="homePoints">100</div>
+        </div>
+    </section>
+
+    <!-- Auction Page -->
+    <section id="auction" class="page">
+        <h2 id="auctionTitle">🔥 የኤሌክትሮኒክስ እቃዎች</h2>
+        <div class="card">
+            <h3 id="phoneTitle">የስማርትፎን ጨረታ</h3>
+            <p id="startPrice">የሙከራ መነሻ ዋጋ: 70 ብር</p>
+            <p><span id="highestBidLabel">ከፍተኛው የዲሞ ጨረታ:</span> <span id="highestBid" class="big">70 ETB</span></p>
+            <button class="primary" onclick="placeBid()" id="bidBtn">የዲሞ ጨረታ አቅርብ (+10 ነጥብ)</button>
+        </div>
+    </section>
+
+    <!-- Tasks Page -->
+    <section id="tasks" class="page">
+        <h2 id="tasksTitle">🎯 ተግባራት</h2>
+        <div class="card">
+            <h3 id="dailyTitle">የዕለት ተግባር</h3>
+            <p id="dailyReward">የሙከራ ሽልማት: 5 ነጥብ</p>
+            <button class="primary" onclick="taskReward()" id="collectBtn">ነጥብ ሰብስብ</button>
+        </div>
+        <div class="card">
+            <h3 id="inviteTitle">🤝 ጓደኞችን ጋብዝ</h3>
+            <p id="refText">Your referral code:</p>
+            <h2>ETHIO100</h2>
+            <button class="secondary" onclick="copyCode()" id="copyBtn">ኮዱን ኮፒ አድርግ</button>
+        </div>
+    </section>
+
+    <!-- Wallet Page -->
+    <section id="wallet" class="page">
+        <h2 id="walletTitle">💰 የእኔ ቦርሳ</h2>
+        <div class="card">
+            <p id="balanceText">የዲሞ ነጥብ ቀሪ ሂሳብ</p>
+            <div class="big" id="walletPoints">100</div>
+            <p class="note" id="disclaimer">እነዚህ የሙከራ ነጥቦች ናቸው፤ ገንዘብ ወይም ሊወጡ የሚችሉ ገንዘቦች አይደሉም።</p>
+        </div>
+    </section>
+
+    <!-- Profile Page -->
+    <section id="profile" class="page">
+        <h2 id="profileTitle">👤 My Profile</h2>
+        <div class="card">
+            <p id="accountText">መለያ: እንግዳ</p>
+            <p>Referral code: ETHIO100</p>
+            <p id="levelText">Level: Beginner</p>
+        </div>
+        <div class="card">
+            <h3 id="aboutTitle">About Ethio Earn</h3>
+            <p id="aboutText">An Ethiopian electronics auction and rewards demo website.</p>
+        </div>
+    </section>
+</main>
+
+<nav>
+    <button class="selected" onclick="openPage('home',this)" id="navHome">🏠 መነሻ</button>
+    <button onclick="openPage('auction',this)" id="navAuction">🔨 ጨረታ</button>
+    <button onclick="openPage('tasks',this)" id="navTasks">🎯 ተግባር</button>
+    <button onclick="openPage('wallet',this)" id="navWallet">💰 ቦርሳ</button>
+    <button onclick="openPage('profile',this)" id="navProfile">👤 መገለጫ</button>
+</nav>
+
+<script>
+const translations = {
+  en: {
+    welcome: '🎁 WELCOME BONUS',
+    welcomeDesc: 'Welcome to your electronics rewards community!',
+    pointsLabel: '🪙 MY POINTS',
+    auctionTitle: '🔥 Electronics',
+    phoneTitle: 'Smartphone Auction',
+    startPrice: 'Demo starting price: 70 ETB',
+    highestBidLabel: 'Highest demo bid:',
+    bidBtn: 'Place demo bid (-10 points)',
+    tasksTitle: '🎯 Tasks',
+    dailyTitle: 'Daily welcome task',
+    dailyReward: 'Demo reward: 5 points',
+    collectBtn: 'Collect points',
+    inviteTitle: '🤝 Invite friends',
+    refText: 'Your referral code:',
+    copyBtn: 'Copy code',
+    walletTitle: '💰 My Wallet',
+    balanceText: 'Demo points balance',
+    disclaimer: 'These are demonstration points, not money or withdrawable funds.',
+    profileTitle: '👤 My Profile',
+    accountText: 'Account: Guest',
+    levelText: 'Level: Beginner',
+    aboutTitle: 'About Ethio Earn',
+    aboutText: 'An Ethiopian electronics auction and rewards demo website.',
+    navHome: '🏠 Home', navAuction: '🔨 Auction',
+    navTasks: '🎯 Tasks', navWallet: '💰 Wallet',
+    navProfile: '👤 Profile'
+  },
+  am: {
+    welcome: '🎁 የእንኳን ደህና መጡ ስጦታ',
+    welcomeDesc: 'ወደ ኢትዮ እርን እንኳን ደህና መጡ!',
+    pointsLabel: '🪙 የእኔ ነጥቦች',
+    auctionTitle: '🔥 የኤሌክትሮኒክስ እቃዎች',
+    phoneTitle: 'የስማርትፎን ጨረታ',
+    startPrice: 'የሙከራ መነሻ ዋጋ: 70 ብር',
+    highestBidLabel: 'ከፍተኛው የዲሞ ጨረታ: ',
+    bidBtn: 'የዲሞ ጨረታ አቅርብ (+10 ነጥብ)',
+    tasksTitle: '🎯 ተግባራት',
+    dailyTitle: 'የዕለት ተግባር',
+    dailyReward: 'የሙከራ ሽልማት: 5 ነጥብ',
+    collectBtn: 'ነጥብ ሰብስብ',
+    inviteTitle: '🤝 ጓደኞችን ጋብዝ',
+    refText: 'የአንተ የግብዣ ኮድ:',
+    copyBtn: 'ኮዱን ኮፒ አድርግ',
+    walletTitle: '💰 የእኔ ቦርሳ',
+    balanceText: 'የሙከራ ነጥብ ቀሪ ሂሳብ',
+    disclaimer: 'እነዚህ የሙከራ ነጥቦች ናቸው፤ ገንዘብ ወይም ሊወጡ የሚችሉ ገንዘቦች አይደሉም።',
+    profileTitle: '👤 የእኔ መገለጫ',
+    accountText: 'መለያ: እንግዳ',
+    levelText: 'ደረጃ: ጀማሪ',
+    aboutTitle: 'ስለ Ethio Earn',
+    aboutText: 'የኢትዮጵያ ኤሌክትሮኒክስ ጨረታና ሽልማት የሙከራ ድረገፅ።',
+    navHome: '🏠 መነሻ', navAuction: '🔨 ጨረታ',
+    navTasks: '🎯 ተግባር', navWallet: '💰 ቦርሳ',
+    navProfile: '👤 መገለጫ'
+  }
+};
+
+let points = Number(localStorage.getItem('ethioPoints') || 100);
+let highestBid = Number(localStorage.getItem('ethioBid') || 70);
+let lang = localStorage.getItem('ethioLang') || 'am';
+
 function update() {
   if(document.getElementById('homePoints')) document.getElementById('homePoints').textContent = points;
   if(document.getElementById('walletPoints')) document.getElementById('walletPoints').textContent = points;
   if(document.getElementById('highestBid')) document.getElementById('highestBid').textContent = highestBid + ' ETB';
 }
 
-// 2. ገጾችን ለማቀያየር የሚያገለግል ተግባር (Navigation)
 function openPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('selected'));
@@ -19,7 +178,6 @@ function openPage(id, btn) {
   window.scrollTo(0, 0);
 }
 
-// 3. የጨረታ መጫረቻ ቁልፍ ሎጂክ
 function placeBid() {
   if (points < 10) {
     alert(lang === 'am' ? 'በቂ የዲሞ ነጥብ የሎትም!!' : 'Not enough demo points!');
@@ -32,7 +190,6 @@ function placeBid() {
   alert(lang === 'am' ? 'የመጫረቻ ጨረታ ተሳክቷል!' : 'Demo bid placed!');
 }
 
-// 4. የዕለት ነጥብ መሰብሰቢያ ቁልፍ ሎጂክ (በቀን አንድ ጊዜ ብቻ)
 function taskReward() {
   let today = new Date().toDateString();
   if (localStorage.getItem('ethioTaskDay') === today) {
@@ -46,7 +203,6 @@ function taskReward() {
   alert(lang === 'am' ? '5 ነጥብ ተጨምሯል!' : '5 demo points added!');
 }
 
-// 5. የግብዣ ኮድ መቅጃ ቁልፍ ሎጂክ
 function copyCode() {
   if (navigator.clipboard) {
     navigator.clipboard.writeText('ETHIO100').then(() => {
@@ -59,7 +215,6 @@ function copyCode() {
   }
 }
 
-// 6. ቋንቋ ለመቀየር የሚጠራ ተግባር
 function changeLang() {
   lang = (lang === 'en' ? 'am' : 'en');
   localStorage.setItem('ethioLang', lang);
@@ -67,7 +222,6 @@ function changeLang() {
   update();
 }
 
-// 7. የተመረጠውን ቋንቋ በገጹ ላይ የሚተገብር ተግባር
 function applyLanguage() {
   let t = translations[lang];
   Object.keys(t).forEach(key => {
@@ -75,22 +229,22 @@ function applyLanguage() {
     if (el) el.textContent = t[key];
   });
   
-  // የቋንቋ መቀያየሪያ ቁልፍ ጽሑፍን ለመቀየር
   let langBtn = document.getElementById('langBtn');
   if (langBtn) {
     langBtn.textContent = (lang === 'en' ? 'አማርኛ' : 'English');
   }
-  
-  // በጨረታ ገጽ ላይ ያሉ እቃዎችን ስም ለመቀየር (view1, view2...)
-  document.querySelectorAll('#view1, #view2, #view3, #view4').forEach(el => {
-    if (t.view) el.textContent = t.view;
-  });
-  
   document.documentElement.lang = lang;
 }
 
-// መረጃዎችን በ LocalStorage ላይ ለማስቀመጥ
 function save() {
   localStorage.setItem('ethioPoints', points);
   localStorage.setItem('ethioBid', highestBid);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyLanguage();
+  update();
+});
+</script>
+</body>
+</html>
