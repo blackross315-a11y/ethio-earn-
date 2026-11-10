@@ -115,3 +115,141 @@
             </div>
         </div>
     </div>
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethio Earn</title>
+    <!-- Chart.js ቻርት ለመስራት -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        :root {
+            --bg-color: #050f08;
+            --card-bg: #0b1a10;
+            --accent-green: #00cc66;
+            --text-color: #ffffff;
+            --text-muted: #889990;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; padding-bottom: 80px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; position: relative; }
+        .menu-btn { font-size: 24px; background: none; border: none; color: white; cursor: pointer; }
+        .sidebar { position: fixed; top: 0; left: -250px; width: 250px; height: 100%; background: #040a06; border-right: 1px solid #122518; z-index: 1000; padding: 20px; transition: 0.3s; }
+        .sidebar.active { left: 0; }
+        .sidebar-item { padding: 15px 0; border-bottom: 1px solid #122518; color: white; cursor: pointer; font-size: 16px; }
+
+        .app-page { display: none; }
+        .app-page.active { display: block; }
+
+        .lang-badge { color: var(--accent-green); border: 1px solid var(--accent-green); padding: 4px 10px; border-radius: 15px; font-size: 14px; }
+        .welcome-card { background-color: var(--card-bg); border: 1px solid #15301d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .welcome-title { color: #ff9933; font-weight: bold; margin-bottom: 10px; }
+        .main-points { font-size: 36px; font-weight: 800; color: var(--accent-green); margin-bottom: 8px; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-box { background-color: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid #122518; }
+        .stat-label { font-size: 12px; margin-bottom: 5px; }
+        .stat-value { font-size: 24px; font-weight: bold; }
+        
+        .auction-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 25px; }
+        .auction-card { background-color: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid #122518; margin-bottom: 15px; }
+        .item-header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .item-icon { font-size: 40px; }
+        .item-name { font-size: 18px; font-weight: bold; }
+        .item-bid { color: var(--accent-green); font-weight: bold; margin-bottom: 5px; }
+        .bidder-info { display: flex; gap: 15px; font-size: 13px; color: #ffcc00; margin: 5px 0 10px 0; background: #112215; padding: 6px 10px; border-radius: 6px; width: fit-content; }
+        .countdown { background: #1a0f05; color: #ff9933; padding: 5px 10px; border-radius: 5px; font-size: 13px; display: inline-block; margin-bottom: 10px; font-weight: bold; }
+        .chart-container { width: 100%; height: 120px; margin-top: 10px; }
+        
+        .interaction-bar { display: flex; gap: 15px; margin: 10px 0; border-top: 1px solid #15301d; padding-top: 10px; }
+        .int-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; }
+        .int-btn.active { color: #ff3366; }
+        .comment-section { margin-top: 10px; display: flex; gap: 5px; }
+        .comment-input { flex: 1; padding: 8px; background: #050f08; border: 1px solid #122518; color: white; border-radius: 4px; }
+        .comment-btn { padding: 8px 12px; background: var(--accent-green); border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: #000; }
+        .comments-list { margin-top: 8px; font-size: 13px; color: var(--text-muted); }
+
+        .tasks-container { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .task-card { background-color: var(--card-bg); padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #122518; }
+        .task-btn { background-color: var(--accent-green); color: #000; border: none; padding: 8px 16px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+
+        .wallet-card { background: linear-gradient(135deg, #112516 0%, #051409 100%); border-radius: 12px; padding: 25px; border: 1px solid var(--accent-green); margin-top: 15px; text-align: center; }
+        .wallet-balance { font-size: 32px; font-weight: bold; color: var(--accent-green); margin: 10px 0; }
+        .withdraw-input { width: 100%; padding: 12px; margin: 15px 0; background: #050f08; border: 1px solid #122518; color: white; border-radius: 6px; font-size: 16px; text-align: center; }
+        .withdraw-btn { width: 100%; padding: 12px; background: #ff9933; border: none; color: black; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
+
+        .ref-card { background-color: var(--card-bg); border: 1px solid #1a3a22; border-radius: 10px; padding: 15px; margin-top: 15px; }
+        .ref-link-box { display: flex; gap: 5px; margin-top: 8px; }
+        .ref-input { flex: 1; padding: 8px; background: #050f08; border: 1px solid #122518; color: #ffcc00; border-radius: 4px; font-size: 13px; }
+        .ref-btn { padding: 8px 12px; background: #3399ff; border: none; color: white; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+        .navbar { position: fixed; bottom: 0; left: 0; right: 0; background-color: #040a06; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #122518; z-index: 100; }
+        .nav-item { text-align: center; font-size: 12px; color: var(--text-muted); cursor: pointer; }
+        .nav-item.active { color: var(--accent-green); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <h2>Ethio Earn</h2>
+        <span class="lang-badge">English</span>
+    </div>
+
+    <div class="sidebar" id="appSidebar">
+        <div style="font-weight: bold; color: var(--accent-green); margin-bottom: 20px; cursor: pointer;" onclick="toggleSidebar()">✖ ዝጋ</div>
+        <div class="sidebar-item" onclick="switchPage('home')">🏠 መነሻ ገጽ (Home)</div>
+        <div class="sidebar-item" onclick="switchPage('tasks')">📋 ተግባራት (Tasks)</div>
+        <div class="sidebar-item" onclick="switchPage('wallet')">💳 የገንዘብ ከረጢት (Wallet)</div>
+    </div>
+
+    <!-- 1. HOME PAGE -->
+    <div id="homePage" class="app-page active">
+        <div class="welcome-card">
+            <div class="welcome-title">🎁 WELCOME BONUS</div>
+            <div class="main-points" id="welcomePoints">100 POINTS</div>
+            <div style="font-size: 13px; color: var(--text-muted);">Welcome to your electronics rewards community</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box"><div class="stat-label" style="color:#ffcc00">● MY POINTS</div><div class="stat-value" id="userPointsDisplay">100</div></div>
+            <div class="stat-box"><div class="stat-label" style="color:#3399ff">👥 REFERRALS</div><div class="stat-value" id="referralCountDisplay">0</div></div>
+        </div>
+        
+        <div style="font-size: 18px; margin-bottom: 15px; color: #ffcc00;">🔥 Live Electronics Auctions (21 Days Limit)</div>
+        <div class="auction-grid">
+            <div class="auction-card">
+                <div class="item-header"><div class="item-icon">📱</div><div><div class="item-name">iPhone 15 Pro Max</div><div class="item-bid">Current Bid: 4,500 ETB</div></div></div>
+                <div class="bidder-info"><span>👥 ተጫራቾች: 148 ሰው</span><span>👁️ እይታዎች: 1.2k</span></div>
+                <div class="countdown" id="timer1">⏳ ቀሪ ጊዜ በመቆጠር ላይ...</div>
+                <div class="chart-container"><canvas id="chart1"></canvas></div>
+                <div class="interaction-bar"><button class="int-btn" onclick="likeItem(this)">❤️ <span class="count">24</span></button><button class="int-btn" onclick="shareItem()">🔗 Share</button></div>
+                <div class="comment-section"><input type="text" class="comment-input" placeholder="አስተያየት ይጻፉ..."><button class="comment-btn" onclick="addComment(this)">ይለጥፉ</button></div>
+                <div class="comments-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. TASKS PAGE -->
+    <div id="tasksPage" class="app-page">
+        <div style="font-size: 20px; color: #ffcc00; margin-bottom: 10px;">📝 ማህበራዊ ተግባራት (Social Tasks)</div>
+        <div class="tasks-container">
+            <div class="task-card"><div><div>Follow Telegram Channel</div><div style="color:var(--accent-green)">+100 Points</div></div><button class="task-btn" onclick="completeTask('https://t.me')">Follow</button></div>
+            <div class="task-card"><div><div>Follow TikTok Account</div><div style="color:var(--accent-green)">+100 Points</div></div><button class="task-btn" onclick="completeTask('https://tiktok.com')">Follow</button></div>
+        </div>
+    </div>
+
+    <!-- 3. WALLET & REFERRAL PAGE -->
+    <div id="walletPage" class="app-page">
+        <div style="font-size: 20px; color: #ffcc00; margin-bottom: 10px;">💳 የገንዘብ ከረጢትና ማውጫ ክፍል</div>
+        <div class="wallet-card">
+            <div style="font-size: 14px; color: var(--text-muted);">ያለዎት አጠቃላይ ፖይንት</div>
+            <div class="wallet-balance" id="walletBalanceDisplay">100 PTS</div>
+            <div style="font-size: 12px; color: #ff9933;">እኩል ይሆናል ፦ <span id="etbEquivalent">10</span> ETB</div>
+            <input type="number" class="withdraw-input" id="withdrawAmount" placeholder="የሚያወጡትን የብር መጠን ያስገቡ (በቴሌብር)">
+            <button class="withdraw-btn" onclick="processWithdraw()">ብር ማውጫ (Withdraw via Telebirr)</button>
+        </div>
+
+        <div class="ref-card">
