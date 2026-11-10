@@ -6,293 +6,195 @@
     <title>Ethio Earn</title>
     <style>
         :root {
-            --bg-color: #0b1a13;
-            --card-bg: #132a1e;
-            --primary-green: #00e676;
-            --text-main: #ffffff;
-            --text-muted: #a0aec0;
-            --accent-gold: #ffd700;
+            --bg-color: #0a110d;
+            --card-bg: #112219;
+            --accent-green: #00cc66;
+            --text-color: #ffffff;
+            --text-muted: #889990;
         }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main);
-            margin: 0; padding: 0; padding-bottom: 90px;
-        }
-        header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo-area h1 { color: var(--primary-green); margin: 0; font-size: 24px; letter-spacing: 1px; }
-        .logo-area p { color: var(--text-muted); margin: 5px 0 0 0; font-size: 11px; text-transform: uppercase; }
-        .notification-icon { font-size: 24px; color: var(--accent-gold); cursor: pointer; }
-        .page { display: none; padding: 0 20px; }
-        .page.active { display: block !important; }
-        .card { 
-            background-color: var(--card-bg); padding: 20px; margin-bottom: 15px; 
-            border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);
-        }
-        .welcome-card {
-            background: linear-gradient(135deg, #132a1e 0%, #084d2c 100%);
-            border: 1px solid rgba(0, 230, 118, 0.2);
-        }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .dash-card { background-color: var(--card-bg); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02); }
-        .dash-card .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; }
-        .dash-card .value { font-size: 28px; font-weight: bold; margin-top: 8px; }
-        .section-title { font-size: 20px; margin: 25px 0 15px 0; }
-        .auction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .product-card { background-color: var(--card-bg); border-radius: 16px; padding: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.02); cursor: pointer; }
-        .product-icon { height: 100px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
-        .product-card h4 { margin: 0 0 8px 0; font-size: 16px; text-align: left; }
-        .product-card p { margin: 0; font-size: 12px; text-align: left; color: var(--primary-green); font-weight: 500; }
-        button { width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 10px; }
-        button.primary { background-color: var(--primary-green); color: #0b1a13; }
-        button.secondary { background-color: rgba(255,255,255,0.08); color: var(--text-main); }
-        nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; 
-            background-color: #07120d; display: flex; justify-content: space-around; 
-            padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.05); 
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.3); z-index: 1000;
-        }
-        nav button { 
-            background: none; color: var(--text-muted); display: flex;
-            flex-direction: column; align-items: center; gap: 4px;
-            padding: 4px; width: auto; font-size: 11px; font-weight: 500; margin: 0;
-        }
-        nav button.selected { color: var(--primary-green); }
-        .lang-container { padding: 0 20px; text-align: right; margin-bottom: 10px; }
-        .lang-btn { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 20px; width: auto; font-size: 12px; cursor: pointer; }
-        .big { font-size: 28px; font-weight: bold; }
-        .note { font-size: 13px; color: var(--text-muted); margin-top: 10px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
+        
+        /* Header */
+        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a2e22; }
+        .logo { font-weight: bold; font-size: 1.2rem; color: var(--text-color); }
+        .lang-badge { background: #1a2e22; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: var(--accent-green); }
+
+        /* Navigation Bottom Bar */
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1a13; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #1a2e22; z-index: 1000; }
+        .nav-item { background: none; border: none; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; font-size: 0.8rem; cursor: pointer; width: 20%; }
+        .nav-item.active { color: var(--accent-green); }
+        .nav-item svg { width: 24px; height: 24px; margin-bottom: 4px; fill: currentColor; }
+
+        /* Pages */
+        .page { display: none; padding: 20px; }
+        .page.active { display: block; }
+
+        /* Cards & UI Elements */
+        .card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #1a3324; }
+        .welcome-card { background: linear-gradient(135deg, #0b2b1a, #112219); border: 1px solid var(--accent-green); }
+        .points-title { font-size: 2rem; font-weight: bold; color: var(--accent-green); margin: 10px 0; }
+        .stats-grid { display: flex; gap: 15px; margin-bottom: 20px; }
+        .stat-box { flex: 1; background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid #1a3324; }
+        .stat-val { font-size: 1.5rem; font-weight: bold; margin-top: 5px; }
+
+        /* Grid */
+        .grid { display: flex; gap: 15px; margin-top: 15px; }
+        .grid-item { flex: 1; background: var(--card-bg); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #1a3324; cursor: pointer; }
+        .grid-item:hover { border-color: var(--accent-green); }
+        .grid-icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+        /* Buttons */
+        .btn { background: var(--accent-green); color: #000; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+        .btn-tg { background: #0088cc; color: #fff; }
+
+        /* Inputs */
+        input, select { width: 100%; padding: 12px; background: #0d1a13; border: 1px solid #1a3324; border-radius: 8px; color: #fff; margin-top: 8px; margin-bottom: 15px; font-size: 1rem; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-area">
-        <h1 id="mainTitle">ETHIO EARN</h1>
-        <p id="subtitle">EARN MORE · WIN MORE</p>
+    <div class="header">
+        <div class="logo">Ethio Earn</div>
+        <div class="lang-badge">English</div>
     </div>
-    <div class="notification-icon">🔔</div>
-</header>
 
-<div class="lang-container">
-    <button class="lang-btn" onclick="changeLang()" id="langBtn">English</button>
-</div>
-
-<main>
-    <section id="home" class="page active">
+    <!-- 1. HOME PAGE -->
+    <div id="homePage" class="page active">
         <div class="card welcome-card">
-            <h3 id="welcome">🎁 WELCOME BONUS</h3>
-            <div id="fillPoints" class="big" style="font-size: 32px; font-weight: 900; margin: 10px 0; color: var(--primary-green);">100 POINTS</div>
-            <p id="welcomeDesc" style="margin: 0;">Welcome to your electronics rewards community</p>
+            <div>🎁 WELCOME BONUS</div>
+            <div class="points-title">100 POINTS</div>
+            <div style="color: var(--text-muted)">Welcome to your electronics rewards community</div>
         </div>
-        <div class="dashboard-grid">
-            <div class="dash-card">
-                <div class="label" id="pointsLabel">🪙 MY POINTS</div>
-                <div class="value" id="homePoints">100</div>
-            </div>
-            <div class="dash-card">
-                <div class="label" id="refLabel">👥 REFERRALS</div>
-                <div class="value">0</div>
-            </div>
-        </div>
-        <h3 class="section-title" id="auctionTitle">🔥 Electronics auctions</h3>
-        <div class="auction-grid">
-            <div class="product-card" onclick="openPage('auction')">
-                <div class="product-icon">
-                    <svg width="40" height="70" viewBox="0 0 40 70" fill="none">
-                        <rect x="2" y="2" width="36" height="66" rx="6" stroke="#00e676" stroke-width="2"/>
-                        <circle cx="20" cy="60" r="2" fill="#00e676"/>
-                        <rect x="8" y="10" width="24" height="40" fill="#00e676" opacity="0.2"/>
-                    </svg>
-                </div>
-                <h4 id="prod1">Smartphones</h4>
-                <p id="startPrice1">Starting bid: 70 ETB</p>
-            </div>
-            <div class="product-card" onclick="openPage('auction')">
-                <div class="product-icon">
-                    <svg width="70" height="50" viewBox="0 0 70 50" fill="none">
-                        <rect x="10" y="5" width="50" height="32" rx="4" stroke="#ffffff" stroke-width="2"/>
-                        <rect x="5" y="37" width="60" height="4" rx="2" fill="#ffffff"/>
-                    </svg>
-                </div>
-                <h4 id="prod2">Laptops</h4>
-                <p id="startPrice2">Starting bid: 70 ETB</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="auction" class="page">
-        <h2 id="auctionPage">🏆 Auctions</h2>
-        <div class="card">
-            <h3 id="phoneTitle">Smartphone Auction</h3>
-            <p><span id="highestBidLabel">Highest demo bid:</span> <span id="highestBid" style="color:var(--primary-green)" class="big">70 ETB</span></p>
-            <button class="primary" onclick="placeBid()" id="bidBtn">Place demo bid (-10 points)</button>
-        </div>
-    </section>
-
-    <section id="tasks" class="page">
-        <h2 id="tasksTitle">🎯 Tasks</h2>
-        <div class="card">
-            <h3 id="dailyTitle">Daily welcome task</h3>
-            <p id="dailyReward">Demo reward: 5 points</p>
-            <button class="primary" onclick="taskReward()" id="collectBtn">Collect points</button>
-        </div>
-        <div class="card">
-            <h3 id="inviteTitle">🤝 Invite friends</h3>
-            <p id="refText">Your referral code:</p>
-            <h2 style="color: var(--primary-green); letter-spacing: 1px; margin: 10px 0;">ETHIO100</h2>
-            <button class="secondary" onclick="copyCode()" id="copyBtn">Copy code</button>
-        </div>
-    </section>
-
-    <section id="wallet" class="page">
-        <h2 id="walletTitle">💰 My Wallet</h2>
-        <div class="card">
-            <p id="balanceText">Demo points balance</p>
-            <div class="big" id="walletPoints" style="color: var(--primary-green)">100</div>
-            <p class="note" id="disclaimer">These are demonstration points, not money or withdrawable funds.</p>
-        </div>
-    </section>
-
-    <section id="profile" class="page">
-        <h2 id="profileTitle">👤 My Profile</h2>
-        <div class="card">
-            <p id="accountText">Account: Guest</p>
-            <p>Referral code: ETHIO100</p>
-            <p id="levelText">Level: Beginner</p>
-        </div>
-        <div class="card">
-            <h3 id="aboutTitle">About Ethio Earn</h3>
-            <p id="aboutText">An Ethiopian electronics auction and rewards demo website.</p>
-        </div>
-    </section>
-</main>
-
-<nav>
-    <button onclick="openPage('home', this)" id="navHome" class="selected">🏠 <span id="navHomeText">Home</span></button>
-    <button onclick="openPage('auction', this)" id="navAuction">🔨 <span id="navAuctionText">Auction</span></button>
-    <button onclick="openPage('tasks', this)" id="navTasks">🎯 <span id="navTasksText">Tasks</span></button>
-    <button onclick="openPage('wallet', this)" id="navWallet">💰 <span id="navWalletText">Wallet</span></button>
-    <button onclick="openPage('profile', this)" id="navProfile">👤 <span id="navProfileText">Profile</span></button>
-</nav>
-
-<script>
-const translations = {
-    en: {
-        subtitle: 'EARN MORE · WIN MORE', welcome: '🎁 WELCOME BONUS', welcomeDesc: 'Welcome to your electronics rewards community!',
-        pointsLabel: '🪙 MY POINTS', refLabel: '👥 REFERRALS', auctionTitle: '🔥 Electronics auctions', prod1: 'Smartphones', prod2: 'Laptops',
-        startPrice1: 'Starting bid: 70 ETB', startPrice2: 'Starting bid: 70 ETB', auctionPage: '🏆 Auctions', phoneTitle: 'Smartphone Auction',
-        highestBidLabel: 'Highest demo bid:', fillPoints: '100 POINTS', bidBtn: 'Place demo bid (-10 points)', tasksTitle: '🎯 Tasks',
-        dailyTitle: 'Daily welcome task', dailyReward: 'Demo reward: 5 points', collectBtn: 'Collect points', inviteTitle: '🤝 Invite friends',
-    }
-};
-
-let points = Number(localStorage.getItem('ethioPoints') || 100);
-let highestBid = Number(localStorage.getItem('ethioBid') || 70);
-let lang = localStorage.getItem('ethioLang') || 'en';
-
-function update() {
-    if(document.getElementById('homePoints')) document.getElementById('homePoints').textContent = points;
-    if(document.getElementById('walletPoints')) document.getElementById('walletPoints').textContent = points;
-    if(document.getElementById('highestBid')) document.getElementById('highestBid').textContent = highestBid + ' ETB';
-}
-
-function openPage(id, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('selected'));
-    const activePage = document.getElementById(id);
-    if (activePage) activePage.classList.add('active');
-    if (btn) { btn.classList.add('selected'); } else {
-        const navBtn = document.getElementById('nav' + id.charAt(0).toUpperCase() + id.slice(1));
-        if (navBtn) navBtn.classList.add('selected');
-    }
-    window.scrollTo(0, 0);
-}
-
-function placeBid() {
-    if (points < 10) { alert(lang === 'am' ? 'በቂ የዲሞ ነጥብ የሎትም!!' : 'Not enough demo points!'); return; }
-    points -= 10; highestBid += 10; save(); update();
-    alert(lang === 'am' ? 'የመጫረቻ ጨረታ ተሳክቷል!' : 'Demo bid placed!');
-}
-
-function taskReward() {
-    let today = new Date().toDateString();
-    if (localStorage.getItem('ethioTaskDay') === today) { alert(lang === 'am' ? 'የዛሬውን ሽልማት ቀድመው ወስደዋል!' : 'You already collected today!'); return; }
-    points += 5; localStorage.setItem('ethioTaskDay', today); save(); update();
-    alert(lang === 'am' ? '5 ነጥብ ተጨምሯል!' : '5 demo points added!');
-}
-
-function copyCode() {
-    if (navigator.clipboard) { navigator.clipboard.writeText('ETHIO100').then(() => { alert(lang === 'am' ? 'ኮዱ ኮፒ ተደርጓል!' : 'Code copied!'); }); }
-}
-
-function changeLang() { lang = (lang === 'en' ? 'am' : 'en'); localStorage.setItem('ethioLang', lang); applyLanguage(); update(); }
-
-function applyLanguage() {
-    let t = translations[lang];
-    Object.keys(t).forEach(key => { let el = document.getElementById(key); if (el) el.textContent = t[key]; });
-    let langBtn = document.getElementById('langBtn');
-    if (langBtn) { langBtn.textContent = (lang === 'en' ? 'አማርኛ' : 'English'); }
-    document.documentElement.lang = lang;
-}
-
-function save() { localStorage.setItem('ethioPoints', points); localStorage.setItem('ethioBid', highestBid); }
-
-// የቀጥታ ሰዓት ቆጣሪ ማስቆጠሪያ (5 ደቂቃ)
-let timeLeft = 300;
-setInterval(() => {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-    if (seconds < 10) seconds = '0' + seconds;
-    let timerEl = document.getElementById('timer');
-    if (!timerEl) {
-        let phoneTitle = document.getElementById('phoneTitle');
-        if (phoneTitle) {
-            let p = document.createElement('p');
-            p.innerHTML = `⏱ የቀረው ጊዜ፦ <span id="timer" style="color: #ff4d4d; font-weight: bold;">05:00</span>`;
-            phoneTitle.after(p);
-        }
-    } else {
-        timerEl.textContent = timeLeft > 0 ? `${minutes}:${seconds}` : "ጨረታው አልቋል!";
-    }
-    timeLeft--;
-}, 1000);
-
-document.addEventListener('DOMContentLoaded', () => { applyLanguage(); update(); });
-// የቴሌግራም ማጋሪያ ቁልፍ መፍጠሪያ እና ማጋሪያ ሎጂክ
-    let inviteCard = document.getElementById('inviteTitle') ? document.getElementById('inviteTitle').parentElement : null;
-
-    if (inviteCard && !document.getElementById('telegramShareBtn')) {
-        let shareBtn = document.createElement('button');
-        shareBtn.id = 'telegramShareBtn';
-        shareBtn.className = 'primary';
-        shareBtn.style.background = '#0088cc';
-        shareBtn.style.color = '#ffffff';
-        shareBtn.style.marginTop = '10px';
-        shareBtn.style.padding = '10px 20px';
-        shareBtn.style.border = 'none';
-        shareBtn.style.borderRadius = '5px';
-        shareBtn.style.cursor = 'pointer';
-        shareBtn.style.fontWeight = 'bold';
-        shareBtn.style.width = '100%';
         
-        let lang = 'am'; 
-        shareBtn.textContent = lang === 'am' ? '🔗 በቴሌግራም ጋብዙ' : '🔗 Invite on Telegram';
-        
-        shareBtn.onclick = () => {
-            let text = lang === 'am' ? 
-                'ወደ Ethio Earn ይግቡና በኤሌክትሮኒክስ ዕቃዎች ጨረታ ይሳተፉ! የማጋሪያ ኮዴ፦ ETHIO100' : 
-                'Join Ethio Earn and participate in electronics auctions! My referral code: ETHIO100';
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span style="color: #ffcc00">🟡 MY POINTS</span>
+                <div id="userPoints" class="stat-val">100</div>
+            </div>
+            <div class="stat-box">
+                <span style="color: #0088cc">👥 REFERRALS</span>
+                <div id="userRefs" class="stat-val">0</div>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 10px;">🔥 Electronics Auctions</h3>
+        <div class="grid">
+            <div class="grid-item" onclick="switchTab('auction')">
+                <div class="grid-icon">📱</div>
+                <h4>Smartphones</h4>
+                <p style="color: var(--accent-green); font-size: 0.9rem; margin-top: 5px;">Starting bid: 70 ETB</p>
+            </div>
+            <div class="grid-item" onclick="switchTab('auction')">
+                <div class="grid-icon">💻</div>
+                <h4>Laptops</h4>
+                <p style="color: var(--accent-green); font-size: 0.9rem; margin-top: 5px;">Starting bid: 70 ETB</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. AUCTION PAGE -->
+    <div id="auctionPage" class="page">
+        <h3 style="margin-bottom: 15px;">🛍️ የቀጥታ ጨረታዎች (Live Auctions)</h3>
+        <div class="card">
+            <h4>Samsung Galaxy S24 Ultra</h4>
+            <p style="color: var(--text-muted); margin-bottom: 10px;">አሁን ያለው ከፍተኛ ዋጋ: <span style="color: var(--accent-green)">850 Points</span></p>
+            <input type="number" id="bidAmount" placeholder="የነጥብ መጠን ያስገቡ...">
+            <button class="btn" onclick="placeBid()">🔨 ጨረታ አስገባ (Place Bid)</button>
+        </div>
+    </div>
+
+    <!-- 3. TASKS PAGE -->
+    <div id="tasksPage" class="page">
+        <h3 style="margin-bottom: 15px;">📋 ነፃ ነጥብ መሰብሰቢያ ተግባራት</h3>
+        <div class="card" id="inviteCard">
+            <h4 id="inviteTitle">🔗 ጓደኞችን ይጋብዙ (Referral)</h4>
+            <p style="color: var(--text-muted); margin-bottom: 10px;">እያንዳንዱን ሰው ሲጋብዙ 50 ነጥብ ያገኛሉ።</p>
+            <button class="btn btn-tg" onclick="shareOnTelegram()">🔗 በቴሌግራም ጋብዙ</button>
+        </div>
+    </div>
+
+    <!-- 4. WALLET PAGE -->
+    <div id="walletPage" class="page">
+        <h3 style="margin-bottom: 15px;">💰 የገንዘብ ማውጫ (Wallet)</h3>
+        <div class="card">
+            <p>ያለዎት ጠቅላላ ነጥብ: <span style="color: var(--accent-green)">100 Points</span></p>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">አነስተኛ ማውጫ (Minimum): 1000 Points</p>
             
-            let url = window.location.href; 
+            <label>የማውጫ መንገድ ይምረጡ</label>
+            <select>
+                <option>Telebirr (ቴሌብር)</option>
+                <option>CBE (የኢትዮጵያ ንግድ ባንክ)</option>
+            </select>
+            
+            <label>ስልክ ቁጥር ወይም አካውንት ያስገቡ</label>
+            <input type="text" placeholder="09... / Account Number">
+            
+            <button class="btn">💸 ብር አውጣ (Withdraw)</button>
+        </div>
+    </div>
+
+    <!-- 5. PROFILE PAGE -->
+    <div id="profilePage" class="page">
+        <h3 style="margin-bottom: 15px;">👤 መገለጫ (Profile)</h3>
+        <div class="card">
+            <p>የተጠቃሚ ስም: User_1001</p>
+            <p style="margin-top: 10px;">የግብዣ ኮድ (Referral Code): <b style="color: var(--accent-green)">ETHIO100</b></p>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION BAR WITH SVG ICONS -->
+    <div class="nav-bar">
+        <button class="nav-item active" onclick="switchTab('home')">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
+        </button>
+        <button class="nav-item" onclick="switchTab('auction')">
+            <svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 6.8c-.72 0-1.3-.58-1.3-1.3s.58-1.3 1.3-1.3 1.3.58 1.3 1.3-.58 1.3-1.3 1.3z"/></svg>
+            Auction
+        </button>
+        <button class="nav-item" onclick="switchTab('tasks')">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            Tasks
+        </button>
+        <button class="nav-item" onclick="switchTab('wallet')">
+            <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            Wallet
+        </button>
+        <button class="nav-item" onclick="switchTab('profile')">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+            Profile
+        </button>
+    </div>
+
+    <script>
+        // ገጾችን የማቀያየር (Tab Switching) ተግባር
+        function switchTab(tabName) {
+            // ሁሉንም ገጾች ደብቅ
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            // ሁሉንም የሜኑ ቁልፎች አጥፋ
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            // የተመረጠውን ገጽ እና ቁልፍ ብቻ አሳይ
+            document.getElementById(tabName + 'Page').classList.add('active');
+            
+            // የሜኑ ቁልፍን አክቲቭ ማድረግ
+            const indexMap = { 'home': 0, 'auction': 1, 'tasks': 2, 'wallet': 3, 'profile': 4 };
+            document.querySelectorAll('.nav-item')[indexMap[tabName]].classList.add('active');
+        }
+
+        // የቴሌግራም መጋበዣ ቁልፍ ተግባር
+        function shareOnTelegram() {
+            let text = 'ወደ Ethio Earn ይግቡና በኤሌክትሮኒክስ ዕቃዎች ጨረታ ይሳተፉ! የማጋሪያ ኮዴ፦ ETHIO100';
+            let url = window.location.href;
             let telegramUrl = 'https://t.me' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text);
             window.open(telegramUrl, '_blank');
-        };
-        
-        inviteCard.appendChild(shareBtn);
-    }
-});
-</script>
-</body>
-</html>
+        }
 
+        // የጨረታ ማስገቢያ ተግባር
+        function placeBid() {
+            let bidInput = document.getElementById('bidAmount').value;
+            if(!bidInput || bidInput <= 850) {
+                alert('እባክዎ አሁን ካለው ዋጋ (850) የበለጠ ነጥብ ያስገቡ!');
+            } else {
+                alert('🎉 ጨረታዎ በስኬት ገብቷል! ከፍተኛ ዋጋ አቅራቢ ነዎት።');
