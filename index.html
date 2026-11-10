@@ -1,3 +1,73 @@
-<script>
-window.location.href = "index.html";
+function update(){
+document.getElementById('homePoints').textContent=points;
+document.getElementById('walletPoints').textContent=points;
+document.getElementById('highestBid').textContent=highestBid+' ETB';
+}
+
+function openPage(id,btn){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('selected'));
+if(btn)btn.classList.add('selected');
+else{
+let index=['home','auction','tasks','wallet','profile'].indexOf(id);
+document.querySelectorAll('nav button')[index].classList.add('selected');
+}
+window.scrollTo(0,0);
+}
+
+function placeBid(){
+if(points<10){
+alert(lang==='am'?'በቂ ነጥብ የለህም!':'Not enough demo points!');
+return;
+}
+points-=10;
+highestBid+=10;
+save();
+update();
+alert(lang==='am'?'የሙከራ ጨረታው ተሳክቷል!':'Demo bid placed!');
+}
+
+function taskReward(){
+let today=new Date().toDateString();
+if(localStorage.getItem('ethioTaskDay')===today){
+alert(lang==='am'?'የዛሬን ሽልማት ተቀብለሃል!':'You already collected today!');
+return;
+}
+points+=5;
+localStorage.setItem('ethioTaskDay',today);
+save();
+update();
+alert(lang==='am'?'5 ነጥብ ተጨምሯል!':'5 demo points added!');
+}
+
+function copyCode(){
+if(navigator.clipboard){
+navigator.clipboard.writeText('ETHIO100')
+.then(()=>alert(lang==='am'?'ኮዱ ተኮፒ ተደርጓል!':'Code copied!'))
+.catch(()=>alert('ETHIO100'));
+}else alert('ETHIO100');
+}
+
+function changeLang(){
+lang=lang==='en'?'am':'en';
+localStorage.setItem('ethioLang',lang);
+applyLanguage();
+}
+
+function applyLanguage(){
+let t=translations[lang];
+Object.keys(t).forEach(key=>{
+let el=document.getElementById(key);
+if(el)el.textContent=t[key];
+});
+document.getElementById('langBtn').textContent=lang==='en'?'አማርኛ':'English';
+document.querySelectorAll('#view1,#view2,#view3,#view4').forEach(el=>el.textContent=t.view);
+document.documentElement.lang=lang;
+}
+
+applyLanguage();
+update();
 </script>
+</body>
+</html>
